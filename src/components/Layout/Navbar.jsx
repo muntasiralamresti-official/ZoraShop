@@ -20,16 +20,16 @@ const Navbar = () => {
   return (
     <header>
         <nav className='py-8'>
-         <div className="container flex justify-between items-center">
+         <div className="container flex justify-between items-center flex-wrap md:flex-nowrap gap-5">
             {/* Logo Image */}
             <div className="logo-img">
-            <Link to='/'>
+            <Link to='/' className='order-1'>
              <img src="/Logo.png" alt="logo" />
             </Link>
 
             {/* Search Bar */}
             </div>
-            <div className="search-bar bg-[#F1F1F1] flex items-center rounded-md h-fit w-full max-w-3xl">
+            <div className="search-bar bg-[#F1F1F1] flex items-center rounded-md h-fit w-full md:max-w-md xl:max-w-3xl order-3 md:order-2">
                 <Input placeholder="'I'm looking for..." className='border-none'/>
                 <Button className='rounded-l-none px-4'>
                     <IoSearch className='text-[28px]'/>
@@ -37,21 +37,21 @@ const Navbar = () => {
             </div>
 
             {/* Button */}
-            <div className='flex gap-10'>
+            <div className='flex gap-5 md:gap-10 order-2 md:order-3 text-nowrap'>
 
-                <Link to='/login' className='flex gap-1.5 font-normal text-base items-center'><FaRegUser /> Login </Link>
-                <Link to='/login' className='flex gap-1.5 font-normal text-base items-center'><FaRegHeart /> Wishlist </Link>
-                <Link to='/login' className='flex gap-1.5 font-normal text-base items-center'><FaBasketShopping /> My Cart <span className='w-5 h-5 bg-red-500 flex items-center justify-center rounded-full text-white text-[12px]'>1</span></Link>
+                <Link to='/login' className='flex gap-1.5 font-normal text-base items-center'><FaRegUser className='text-xl'/>  <span className='hidden md:block'>Login</span> </Link>
+                <Link to='/login' className='flex gap-1.5 font-normal text-base items-center'><FaRegHeart className='text-xl'/>  <span className='hidden md:block'>Wishlist</span> </Link>
+                <Link to='/login' className='flex gap-1.5 font-normal text-base items-center'><FaBasketShopping className='text-xl'/> <span className='hidden md:block'>My Cart</span>  <span className='w-5 h-5 bg-red-500 flex items-center justify-center rounded-full text-white text-[12px]'>1</span></Link>
 
             </div>
          </div>
         </nav>
-        <div className='container px-8.5'>
-            <ul className='flex gap-14.5'>
+        <div className='container overflow-x-auto pb-2.5 border-b border-b-[#EFEEEE]'>
+            <ul className='flex gap-14.5 justify-center whitespace-nowrap min-w-max'>
                {
                  catagories.map((item) => (
                     <li>
-                        <Link to="/" className='font-medium text-base text-primary uppercase'>{item}</Link>
+                        <Link to="/" className='font-medium text-[14px] md:text-base text-primary uppercase text-nowrap'>{item}</Link>
                     </li>
                  ))
                }
