@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaBook, FaGift, FaGifts, FaHome, FaPaw, FaShoppingBasket, FaTools, FaTshirt } from 'react-icons/fa'
-import { GiLargeDress } from 'react-icons/gi'
+import { GiDiamondRing, GiLargeDress } from 'react-icons/gi'
 import { MdArrowForward, MdArrowForwardIos, MdHealthAndSafety, MdOutlineLocalGroceryStore, MdWatch } from 'react-icons/md'
 import { Link } from 'react-router'
 
@@ -51,8 +51,8 @@ const Category = () => {
      icon : MdWatch
     },
     {
-     title: "Men Fashion",
-     icon : FaTshirt
+     title: "Mens Fashion",
+     icon : GiDiamondRing
     },
     {
      title: "Tools & Hardware",
