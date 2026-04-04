@@ -1,22 +1,33 @@
-import React from "react";
-import { Link, Links } from "react-router";
 
-const Login = () => {
+import React from "react";
+import { Link } from "react-router";
+
+const Register = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 my-10">
       <div className="w-full max-w-md bg-white rounded-2xl border-primary border-2 p-8">
-        
-        {/* Logo / Title */}
+
+        {/* Title */}
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Welcome Back 👋</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Create Account 🚀</h1>
           <p className="text-sm text-gray-500">
-            Login to your Nirvoya account
+            Join Nirvoya and start shopping
           </p>
         </div>
 
         {/* Form */}
         <form className="space-y-4">
-          
+
+          {/* Name */}
+          <div>
+            <label className="text-sm text-gray-600">Full Name</label>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              className="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+
           {/* Email */}
           <div>
             <label className="text-sm text-gray-600">Email</label>
@@ -32,38 +43,32 @@ const Login = () => {
             <label className="text-sm text-gray-600">Password</label>
             <input
               type="password"
-              placeholder="Enter your password"
+              placeholder="Create password"
               className="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
-          {/* Options */}
-          
-          <Link to='/Forget'>
-          <div className="flex items-center justify-between text-sm pb-5">
-            <label className="flex items-center gap-2 text-gray-600">
-              <input type="checkbox" className="accent-blue-500" />
-              Remember me
-            </label>
-            <a href="#" className="text-blue-500 hover:underline">
-              Forgot Password?
-            </a>
+          {/* Confirm Password */}
+          <div>
+            <label className="text-sm text-gray-600">Confirm Password</label>
+            <input
+              type="password"
+              placeholder="Confirm password"
+              className="w-full mt-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
           </div>
-          </Link>
 
           {/* Button */}
-          <Link to='/' >
+          <Link to="/">
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
           >
-            Login
+            Sign Up
           </button>
           </Link>
-        </form>
 
-        {/* Divider */}
-        <div className="flex items-center gap-2 my-3">
+          <div className="flex items-center gap-2 my-3">
           <div className="flex-1 h- bg-gray-200"></div>
           <span className="text-xs text-gray-400">OR</span>
           <div className="flex-1 h- bg-gray-200"></div>
@@ -81,13 +86,15 @@ const Login = () => {
           </button>
         </Link>
 
+
+
+        </form>
+
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 mt-6">
-          Don’t have an account?{" "}
-          <Link to='/Register'>
-          <span className="text-blue-500 cursor-pointer hover:underline">
-            Sign up
-          </span>
+          Already have an account?{" "}
+          <Link to="/login">
+            <span className="text-blue-500 hover:underline">Login</span>
           </Link>
         </p>
       </div>
@@ -95,4 +102,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

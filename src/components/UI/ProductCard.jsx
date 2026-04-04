@@ -3,13 +3,13 @@ import { BiCart } from 'react-icons/bi'
 import { CiStar } from 'react-icons/ci'
 import { FaRegHeart, FaStar } from 'react-icons/fa'
 
-const ProductCard = ({head, price, img, discount}) => {
+const ProductCard = ({head, price, img, discount, heart}) => {
   return (
     <div className='p-2.5 bg-white border border-[#E9E9E9] rounded-2xl flex flex-col h-full'>
         <div className='rounded-2xl overflow-hidden relative'>
             <img src={img} alt="product" className='w-full' />
             {discount && (<p className="absolute top-0 left-0 py-1 px-3 bg-badge rounded text-white text-xs">{discount}</p>)}
-             <span className="absolute top-5 right-3.5 text-3xl text-gray-400 cursor-pointer"><FaRegHeart /></span>
+             <span className="absolute top-5 right-3.5 text-3xl text-gray-400 cursor-pointer">{heart}</span>
         </div>
         <div className='pt-3.5 px-1 flex flex-col flex-grow'>
             <div>

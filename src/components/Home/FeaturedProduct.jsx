@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 import ProductCard from '../UI/ProductCard'
 import { IoIosArrowDown } from 'react-icons/io'
 
+import { FaHeart, FaRegHeart} from 'react-icons/fa'
+
 
 const FeaturedProduct = () => {
   return (
@@ -18,22 +20,22 @@ const FeaturedProduct = () => {
           
         </div>
         <Link to='Shop' className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mt-5 gap-1 md:gap-6'>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-1.png" price="৳10500"/>
-        <ProductCard head="Women fashion dress set" img="Features-2.png" price="৳1000"/>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-3.png" price="৳5000"/>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-4.png" price="৳1000"/>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-5.png" price="৳10500"/>
-        <ProductCard head="Women fashion dress set" img="Features-6.png" price="৳1000"/>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-7.png" price="৳5000"/>
-        <ProductCard head="Women black dress and red hat collectio0" img="Features-8.png" price="৳1000"/>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-9.png" price="৳10500"/>
-        <ProductCard head="Women fashion dress set" img="Features-10.png" price="৳1000"/>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-11.png" price="৳5000"/>
-        <ProductCard head="Women black dress and red hat collectio0" img="Features-12.png" price="৳1000"/>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-13.png" price="৳10500"/>
-        <ProductCard head="Women fashion dress set" img="Features-14.png" price="৳1000"/>
-        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-15.png" price="৳5000"/>
-        <ProductCard head="Women black dress and red hat collectio0" img="Features-16.png" price="৳1000"/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-1.png" price="৳10500" heart={<FaHeart className='text-red-600'/>}/>
+        <ProductCard head="Women fashion dress set" img="Features-2.png" price="৳1000" heart={<FaRegHeart />}/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-3.png" price="৳5000" heart={<FaRegHeart />}/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-4.png" price="৳1000" heart={<FaRegHeart />}/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-5.png" price="৳10500" heart={<FaRegHeart />}/>
+        <ProductCard head="Women fashion dress set" img="Features-6.png" price="৳1000" heart={<FaRegHeart />}/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-7.png" price="৳5000" heart={<FaRegHeart />}/>
+        <ProductCard head="Women black dress and red hat collectio0" img="Features-8.png" price="৳1000" heart={<FaRegHeart />}/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-9.png" price="৳10500" heart={<FaRegHeart />}/>
+        <ProductCard head="Women fashion dress set" img="Features-10.png" price="৳1000" heart={<FaRegHeart />}/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-11.png" price="৳5000" heart={<FaRegHeart />}/>
+        <ProductCard head="Women black dress and red hat collectio0" img="Features-12.png" price="৳1000" heart={<FaRegHeart />}/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-13.png" price="৳10500" heart={<FaRegHeart />}/>
+        <ProductCard head="Women fashion dress set" img="Features-14.png" price="৳1000" heart={<FaRegHeart />}/>
+        <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-15.png" price="৳5000" heart={<FaRegHeart />}/>
+        <ProductCard head="Women black dress and red hat collectio0" img="Features-16.png" price="৳1000" heart={<FaRegHeart />}/>
         </Link>
       </div>
       <div className='flex justify-center pt-10'>

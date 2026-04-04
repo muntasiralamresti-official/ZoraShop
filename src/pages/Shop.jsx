@@ -4,6 +4,7 @@ import Select from '../components/UI/Select'
 import Button from '../components/UI/Button'
 import { Link } from 'react-router'
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
+import { FaChevronDown } from 'react-icons/fa'
 
 const Shop = () => {
     const Sortoption = [
@@ -51,8 +52,11 @@ const Shop = () => {
                         }
                     </div>
                     <div className='py-6 my-6 border-y-2 border-y-secondary/10'>
-                        <h3 className='text-lg font-medium text-primary'>Filter by Price</h3>
-                        <input type="range" name="" id="" className='w-full my-6'/>
+                        <div className='flex justify-between items-center'>
+                            <h3 className='text-lg  font-medium text-primary'>Filter by Price</h3>
+                            <FaChevronDown className='text-lg font-medium text-primary cursor-pointer'/>
+                        </div>
+                        <input type="range" name="" id="" className='w-full my-6 accent-rose-950'/>
                         <p>Price: ৳1000 - ৳2500 </p>
                     </div>
             </div>

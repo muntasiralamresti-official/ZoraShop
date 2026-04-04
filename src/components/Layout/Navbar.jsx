@@ -40,8 +40,8 @@ const Navbar = () => {
             {/* Button */}
             <div className='flex gap-5 md:gap-10 order-2 md:order-3 text-nowrap'>
 
-                <Link to='login' className='flex gap-1.5 font-normal text-base items-center'><FaRegUser className='text-xl'/>  <span className='hidden md:block'>Login</span> </Link>
-                <Link to='/login' className='flex gap-1.5 font-normal text-base items-center'><FaRegHeart className='text-xl'/>  <span className='hidden md:block'>Wishlist</span> </Link>
+                <Link to='/Register' className='flex gap-1.5 font-normal text-base items-center'><FaRegUser className='text-xl'/>  <span className='hidden md:block'>Login</span> </Link>
+                <Link to='/Wishlist' className='flex gap-1.5 font-normal text-base items-center'><FaRegHeart className='text-xl'/>  <span className='hidden md:block'>Wishlist</span> </Link>
                 <Link to='/login' className='flex gap-1.5 font-normal text-base items-center'><FaBasketShopping className='text-xl'/> <span className='hidden md:block'>My Cart</span>  <span className='w-5 h-5 bg-red-500 flex items-center justify-center rounded-full text-white text-[12px]'>1</span></Link>
 
             </div>

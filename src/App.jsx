@@ -4,6 +4,9 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import Shop from './pages/Shop'
 import Login from './pages/Login'
+import Forget from './pages/Forget'
+import Register from './pages/Register'
+import Wishlist from './pages/Wishlist'
 
 const App = () => {
   return (
@@ -13,6 +16,10 @@ const App = () => {
           <Route index element={<Home/>} />
           <Route path="Shop" element={<Shop/>} />
           <Route path="Login" element={<Login/>} />
+          <Route path="Register" element={<Register/>} />
+          <Route path="Forget" element={<Forget />} />
+          <Route path="Wishlist" element={<Wishlist />} />
+
         </Route >
       </Routes>
    </BrowserRouter>
