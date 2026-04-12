@@ -21,8 +21,8 @@ const Register = () => {
         <form className="space-y-4">
           {/* Name */}
           <div>
-            <label className="text-sm text-secondary">Full Name</label>
             <Input
+            label="Full Name"
               type="text"
               placeholder="Enter your Name"
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
@@ -31,8 +31,8 @@ const Register = () => {
 
           {/* Email */}
           <div>
-            <label className="text-sm text-secondary">Email</label>
             <Input
+            label="Email"
               type="email"
               placeholder="Enter your Email"
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
@@ -41,8 +41,8 @@ const Register = () => {
 
           {/* Password */}
           <div>
-            <label className="text-sm text-secondary">Password</label>
             <Input
+            label="Password"
               type="password"
               placeholder="Enter your Password"
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
@@ -51,8 +51,9 @@ const Register = () => {
 
           {/* Confirm Password */}
           <div>
-            <label className="text-sm text-secondary">Confirm Password</label>
+            
             <Input
+              label="Confirm Password"
               type="password"
               placeholder="Enter your Password"
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"

@@ -21,24 +21,19 @@ const Login = () => {
           
           {/* Email */}
           <div>
-            <label className="text-sm text-secondary">Email</label>
-           <Input type="email" placeholder="Enter your Email" className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"/>
+           <Input label="Email" type="email" placeholder="Enter your Email" className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"/>
             
           </div>
           {/* Password */}
           <div>
-            <label className="text-sm text-secondary">Password</label>
-            <Input type="email" placeholder="Enter your Password" className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"/>
+            <Input label="Password" type="email" placeholder="Enter your Password" className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"/>
           </div>
 
           {/* Options */}
           
           
           <div className="flex items-center justify-between text-sm pb-1">
-            <label className="flex items-center gap-2 text-secondary">
-              <input type="checkbox" className="accent-brand" />
-              Remember me
-            </label>
+            <Input type="checkbox" label="Remember me" className="accent-brand flex items-center gap-2 text-secondary"/>
             <Link to='/Forget'>
             <a href="#" className="text-brand hover:underline">
               Forgot Password?

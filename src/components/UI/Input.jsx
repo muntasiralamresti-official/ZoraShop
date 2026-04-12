@@ -10,6 +10,21 @@ const Input = ({
   className = "",
   ...props
 }) => {
+
+  if (type === "checkbox") {
+    return (
+      <label className="flex items-center gap-2 text-sm text-secondary">
+        <input
+          type="checkbox"
+          className="accent-brand"
+          {...props}
+        />
+        {label}
+      </label>
+    );
+  }
+
+
   return (
     <div className="w-full">
       {label && (

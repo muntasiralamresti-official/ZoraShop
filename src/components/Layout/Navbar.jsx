@@ -30,7 +30,7 @@ const Navbar = () => {
 
             {/* Search Bar */}
           </div>
-          <div className="search-bar bg-[#F1F1F1] flex items-center rounded-md h-fit w-full md:max-w-md xl:max-w-3xl order-3 md:order-2">
+          <div className="search-bar bg-[#F1F1F1] flex items-center rounded-md h-fit w-full">
             <Input placeholder="'I'm looking for..." className="border-none" />
             <Button className="rounded-l-none px-4">
               <IoSearch className="text-[28px]" />
@@ -54,7 +54,7 @@ const Navbar = () => {
               <span className="hidden md:block">Wishlist</span>{" "}
             </Link>
             <Link
-              to="/login"
+              to="/MyCart"
               className="flex gap-1.5 font-normal text-base items-center"
             >
               <FaBasketShopping className="text-xl" />{" "}

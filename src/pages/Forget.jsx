@@ -21,8 +21,7 @@ const Forget = () => {
 
           {/* Email */}
           <div>
-            <label className="text-sm text-secondary">Email</label>
-            <Input type="email" placeholder="Enter your Email" className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"/>
+            <Input label="Email" type="email" placeholder="Enter your Email" className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"/>
           </div>
 
           {/* Button */}
