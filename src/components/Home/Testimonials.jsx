@@ -17,7 +17,7 @@ const Testimonials = () => {
             <h3 className="text-xl text-primary font-medium mb-5">
               Customer reviews
             </h3>
-            <div className="flex items-center gap-1 text-amber-300">
+            <div className="flex items-center gap-1 text-yellow-400">
               <FaStar />
               <FaStar />
               <FaStar />
@@ -39,7 +39,7 @@ const Testimonials = () => {
 
         {/* Add Review */}
 
-        <div >
+        <div>
           <h3 className="text-2xl font-semibold text-primary">
             Add Your Review
           </h3>
@@ -62,13 +62,12 @@ const Testimonials = () => {
           <div className="flex items-center gap-4">
             <h4 className="text-lg font-medium text-primary ">Rating</h4>
             <div className="flex items-center text-lg text-yellow-400 gap-1">
-                <IoStar />
-            <IoStar />
-            <IoStar />
-            <IoStar />
-            <IoStar />
+              <IoStar />
+              <IoStar />
+              <IoStar />
+              <IoStar />
+              <IoStar />
             </div>
-
           </div>
           <Button className="px-14 py-4 my-10">Submit </Button>
         </div>

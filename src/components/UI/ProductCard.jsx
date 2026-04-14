@@ -19,7 +19,7 @@ const ProductCard = ({ head, price, img, discount, heart }) => {
       </div>
       <div className="pt-3.5 px-1 flex flex-col flex-grow">
         <div>
-          <div className="flex items-center gap-1 text-amber-300">
+          <div className="flex items-center gap-1 text-yellow-400">
             <FaStar />
             <FaStar />
             <FaStar />
