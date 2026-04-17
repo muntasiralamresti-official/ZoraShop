@@ -5,8 +5,11 @@ import Button from "../components/UI/Button";
 import { Link } from "react-router";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
+import { useGetProductsQuery } from "../Services/Api";
 
 const Shop = () => {
+  const { data, isLoading, error } = useGetProductsQuery();
+
   const Sortoption = [
     {
       value: "newest_item",
@@ -35,6 +38,9 @@ const Shop = () => {
       title: "Women’s Fashion",
     },
   ];
+
+
+
   return (
     <main className="py-13">
       <div className="container grid grid-cols-12 gap-12">
@@ -87,11 +93,17 @@ const Shop = () => {
             </div>
           </div>
           <Link to="/" className="pt-5 grid grid-cols-3 gap-6">
-            <ProductCard
-              head="Headrest Executive Mesh Office Chairset"
-              img="Features-1.png"
-              price="৳10500"
-            />
+            {isLoading ? (
+              <p>Loading products...</p>
+            ) : (
+              data?.products?.map((item) => (
+                // <ProductCard key={item.id} data={item} />
+                <ProductCard head={item.title} img={item.thumbnail} price={item.price} key={item.id}/>
+              ))
+            )}
+
+
+            {/* <ProductCard head="Headrest Executive Mesh Office Chairset" img="Features-1.png" price="৳10500" />
             <ProductCard
               head="Women fashion dress set"
               img="Features-2.png"
@@ -146,7 +158,7 @@ const Shop = () => {
               head="Women primarydress and red hat collectio0"
               img="Features-12.png"
               price="৳1000"
-            />
+            /> */}
           </Link>
           <Link to="Shop" className="flex items-center justify-end gap-4 pt-10">
             <Button className="bg-white button-arrow  shadow flex items-center">

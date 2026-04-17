@@ -5,8 +5,10 @@ import ProductCard from "../UI/ProductCard";
 import { IoIosArrowDown } from "react-icons/io";
 
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useGetProductsQuery } from "../../Services/Api";
 
 const FeaturedProduct = () => {
+   const { data } = useGetProductsQuery();
   return (
     <section className="pb-[50px]">
       <div className="container">
@@ -25,7 +27,9 @@ const FeaturedProduct = () => {
           to="Shop"
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mt-5 gap-1 md:gap-6"
         >
-          <ProductCard
+          {data?.products?.slice(0, 28).map((item) => ( <ProductCard head={item.title} img={item.thumbnail} price={item.price} key={item.id}/> ))}
+                      
+          {/* <ProductCard
             head="Headrest Executive Mesh Office Chairset"
             img="Features-1.png"
             price="৳10500"
@@ -120,7 +124,7 @@ const FeaturedProduct = () => {
             img="Features-16.png"
             price="৳1000"
             heart={<FaRegHeart />}
-          />
+          /> */}
         </Link>
       </div>
       <div className="flex justify-center pt-10">

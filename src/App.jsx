@@ -10,13 +10,11 @@ import Wishlist from './pages/Wishlist'
 import ProductDetails from './pages/ProductDetails'
 import Apitest from './pages/Apitest'
 import MyCart from './pages/MyCart'
-import Counter from './pages/Counter'
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-          <Route path="/Counter" element={<Counter/>} />
           <Route path="/Login" element={<Login/>} />
           <Route path="/Register" element={<Register/>} />
           <Route path="/Forget" element={<Forget />} />
