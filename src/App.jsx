@@ -8,7 +8,6 @@ import Forget from './pages/Forget'
 import Register from './pages/Register'
 import Wishlist from './pages/Wishlist'
 import ProductDetails from './pages/ProductDetails'
-import Apitest from './pages/Apitest'
 import MyCart from './pages/MyCart'
 
 const App = () => {
@@ -18,7 +17,7 @@ const App = () => {
           <Route path="/Login" element={<Login/>} />
           <Route path="/Register" element={<Register/>} />
           <Route path="/Forget" element={<Forget />} />
-          <Route path="/api" element={<Apitest />} />
+      
         <Route path='/' element={<Layout />}> 
           <Route index element={<Home/>} />
           <Route path="/Shop" element={<Shop/>} />

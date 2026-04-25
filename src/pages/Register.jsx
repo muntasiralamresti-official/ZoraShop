@@ -12,9 +12,7 @@ const Register = () => {
           <h1 className="text-2xl font-bold text-gray-800">
             Create Account 🚀
           </h1>
-          <p className="text-sm text-secondary">
-            Join Nirvoya and start shopping
-          </p>
+          <p className="text-sm text-secondary">Join Zora and start shopping</p>
         </div>
 
         {/* Form */}
@@ -22,7 +20,7 @@ const Register = () => {
           {/* Name */}
           <div>
             <Input
-            label="Full Name"
+              label="Full Name"
               type="text"
               placeholder="Enter your Name"
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
@@ -32,7 +30,7 @@ const Register = () => {
           {/* Email */}
           <div>
             <Input
-            label="Email"
+              label="Email"
               type="email"
               placeholder="Enter your Email"
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
@@ -42,7 +40,7 @@ const Register = () => {
           {/* Password */}
           <div>
             <Input
-            label="Password"
+              label="Password"
               type="password"
               placeholder="Enter your Password"
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
@@ -51,7 +49,6 @@ const Register = () => {
 
           {/* Confirm Password */}
           <div>
-            
             <Input
               label="Confirm Password"
               type="password"

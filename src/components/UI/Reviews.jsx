@@ -41,34 +41,40 @@ const Reviews = () => {
     <section className=" pb-10">
       <div className="container pl-0 space-y-8">
         {reviews.map((review) => (
-        <div>
-          <div key={review.id} className="flex">
-            {/* Image */}
-            <img
-              src={review.image}
-              alt={review.name}
-              className="w-14 h-14 object-cover"
-            />
+          <div key={review.id}>
+            <div className="flex">
+              {/* Image */}
+              <img
+                src={review.image}
+                alt={review.name}
+                className="w-14 h-14 object-cover"
+              />
 
-            {/* Content */}
-            <div className="pl-4">
-              <h4 className="text-primary font-medium text-lg">{review.name}</h4>
+              {/* Content */}
+              <div className="pl-4">
+                <h4 className="text-primary font-medium text-lg">
+                  {review.name}
+                </h4>
 
-              {/* Rating */}
-              <div className="flex items-center gap-4 mt-1">
-                <span className="text-secondary text-lg font-medium">5.0</span>
+                {/* Rating */}
+                <div className="flex items-center gap-4 mt-1">
+                  <span className="text-secondary text-lg font-medium">
+                    5.0
+                  </span>
 
-                <div className="flex gap-1 text-yellow-400">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <IoStar key={i} />
-                  ))}
+                  <div className="flex gap-1 text-yellow-400">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <IoStar key={i} />
+                    ))}
+                  </div>
+
+                  <span className="text-secondary/80 text-lg">
+                    {review.time}
+                  </span>
                 </div>
 
-                <span className="text-secondary/80 text-lg">{review.time}</span>
+                {/* Text */}
               </div>
-
-              {/* Text */}
-            </div>
             </div>
             <p className="text-secondary/80 mt-6 text-lg">{review.text}</p>
           </div>

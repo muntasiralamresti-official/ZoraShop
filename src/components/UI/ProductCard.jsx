@@ -5,14 +5,14 @@ import { FaRegHeart, FaStar } from "react-icons/fa";
 import { useGetProductsQuery } from "../../Services/Api";
 
 const ProductCard = ({ head, price, img, discount, heart }) => {
-  const { data} = useGetProductsQuery();
+  const { data } = useGetProductsQuery();
   return (
     <div className="p-2.5 bg-white border border-[#E9E9E9] rounded-2xl flex flex-col h-full">
       <div className="rounded-2xl overflow-hidden relative">
         <img src={img} alt="product" className="w-full" />
         {discount && (
           <p className="absolute top-0 left-0 py-1 px-3 bg-badge rounded text-white text-xs">
-            {discount}
+            -${discount} OFF
           </p>
         )}
         <span className="absolute top-5 right-3.5 text-3xl text-secondary/80cursor-pointer">
@@ -35,7 +35,7 @@ const ProductCard = ({ head, price, img, discount, heart }) => {
         </div>
         <div className="flex justify-between items-center mt-auto">
           <p className="font-medium text-base md:text-2xl text-brand">
-           ${price}
+            ${price}
           </p>
           <BiCart className="text-lg md:text-3xl text-brand" />
         </div>

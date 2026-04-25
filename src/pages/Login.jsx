@@ -7,44 +7,58 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-badge-secondary">
       <div className="w-full max-w-md bg-white rounded-2xl border-primary border-2 p-8">
-        
         {/* Logo / Title */}
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-primary">Welcome Back 👋</h1>
           <p className="text-sm text-secondary">
-            Login to your Nirvoya account
+            Login to your Zora Shop account
           </p>
         </div>
 
         {/* Form */}
         <form className="space-y-4">
-          
           {/* Email */}
           <div>
-           <Input label="Email" type="email" placeholder="Enter your Email" className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"/>
-            
+            <Input
+              label="Email"
+              type="email"
+              placeholder="Enter your Email"
+              className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
+            />
           </div>
           {/* Password */}
           <div>
-            <Input label="Password" type="email" placeholder="Enter your Password" className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"/>
+            <Input
+              label="Password"
+              type="email"
+              placeholder="Enter your Password"
+              className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
+            />
           </div>
 
           {/* Options */}
-          
-          
+
           <div className="flex items-center justify-between text-sm pb-1">
-            <Input type="checkbox" label="Remember me" className="accent-brand flex items-center gap-2 text-secondary"/>
-            <Link to='/Forget'>
-            <a href="#" className="text-brand hover:underline">
-              Forgot Password?
-            </a>
+            <Input
+              type="checkbox"
+              label="Remember me"
+              className="accent-brand flex items-center gap-2 text-secondary"
+            />
+            <Link to="/Forget">
+              <a href="#" className="text-brand hover:underline">
+                Forgot Password?
+              </a>
             </Link>
           </div>
-          
 
           {/* Button */}
-          <Link to='/' >
-          <Button type="submit" className="w-full bg-brand text-white py-2 rounded-lg hover:bg-brandtransition duration-300">Login</Button>
+          <Link to="/">
+            <Button
+              type="submit"
+              className="w-full bg-brand text-white py-2 rounded-lg hover:bg-brandtransition duration-300"
+            >
+              Login
+            </Button>
           </Link>
         </form>
 
@@ -56,7 +70,7 @@ const Login = () => {
         </div>
 
         {/* Social Login */}
-        <Link to='/' className="space-y-3">
+        <Link to="/" className="space-y-3">
           <Button className="w-full border border-secondary/30 py-2 rounded-lg  flex items-center justify-center gap-2">
             <img src="/google.png" alt="" className="w-8 h-8" />
             Continue with Google
@@ -70,15 +84,14 @@ const Login = () => {
         {/* Footer */}
         <p className="text-center text-sm text-secondary mt-6">
           Don’t have an account?{" "}
-          <Link to='/Register'>
-          <span className="text-brand cursor-pointer hover:underline">
-            Sign up
-          </span>
+          <Link to="/Register">
+            <span className="text-brand cursor-pointer hover:underline">
+              Sign up
+            </span>
           </Link>
         </p>
       </div>
     </div>
-    
   );
 };
 

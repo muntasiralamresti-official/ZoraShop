@@ -4,12 +4,16 @@ import "slick-carousel/slick/slick.css";
 import { NextArrow, PrevArrow } from "../components/ui/Arrows";
 import { IoChevronForward, IoStar, IoStarSharp } from "react-icons/io5";
 import { FaCheck, FaCheckCircle, FaHeart, FaStar } from "react-icons/fa";
-import { CiStar } from "react-icons/ci";
+import { CiShoppingBasket, CiStar } from "react-icons/ci";
 import Button from "../components/UI/Button";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import Testimonials from "../components/Home/Testimonials";
+import { useGetProductDetailsQuery } from "../Services/Api";
 
 const ProductDetails = () => {
+  const {id} = useParams();
+  const { data } = useGetProductDetailsQuery(id);
+
   const [selectedSize, setSelectedSize] = useState("xl");
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -55,17 +59,17 @@ const ProductDetails = () => {
           {/* Product Details image */}
           <div>
             <p className="flex pb-6 items-center text-base text-primary">
-              Home{" "}
+              Shop
               <span>
                 <IoChevronForward />
-              </span>{" "}
-              Men’s fashion{" "}
-              <span>
-                {" "}
+              </span>
+              
+              <span className="flex gap-1 capitalize items-center">
+               {data?.category}
                 <IoChevronForward />
-              </span>{" "}
-              <span className="text-secondary/70">
-                Men's Stand Collar Leather Jacket{" "}
+              </span>
+              <span className="text-secondary/70 capitalize">
+               {data?.title}
               </span>
             </p>
             <div className="grid grid-cols-4 gap-10">
@@ -75,18 +79,13 @@ const ProductDetails = () => {
                 asNavFor={nav2}
                 ref={(slider) => (sliderRef1 = slider)}
               >
-                <div>
-                  <img src="/Features-1.png" alt="" className="w-full" />
+                {data?.images.map((item) => (
+                <div key={item}>
+                  <img src={item} alt="" className="w-full" />
                 </div>
-                <div>
-                  <img src="/Features-2.png" alt="" className="w-full" />
-                </div>
-                <div>
-                  <img src="/Features-3.png" alt="" className="w-full" />
-                </div>
-                <div>
-                  <img src="/Features-4.png" alt="" className="w-full" />
-                </div>
+
+                ))}
+                
               </Slider>
               <Slider
                 asNavFor={nav1}
@@ -96,18 +95,12 @@ const ProductDetails = () => {
                 focusOnSelect={true}
                 {...settingSmalls}
               >
-                <div>
-                  <img src="/Features-1.png" alt="" className="w-3/4" />
+                {data?.images.map((item) => (
+                <div key={item}>
+                  <img src={item} alt="" className="w-full" />
                 </div>
-                <div>
-                  <img src="/Features-2.png" alt="" className="w-3/4" />
-                </div>
-                <div>
-                  <img src="/Features-3.png" alt="" className="w-3/4" />
-                </div>
-                <div>
-                  <img src="/Features-4.png" alt="" className="w-3/4" />
-                </div>
+                ))}
+                
               </Slider>
             </div>
             <div className="flex items-center gap-3 pt-5">
@@ -124,29 +117,29 @@ const ProductDetails = () => {
           {/* Product Short Details */}
           <div className="pt-10">
             <h2 className="font-medium text-26 text-primary max-w-[611px]">
-              Super Skinny Rib Trouser & Joggers for Men By Sowdagar Trouser
+             {data?.title}
             </h2>
 
             {/* Star */}
             <div className="flex gap-3 pt-5 pb-8 items-center">
               <div className="flex items-center gap-1  ">
-                <span className="text-secondary ">4.0</span>
+                <span className="text-secondary ">{data?.rating}</span>
 
                 <IoStar className="text-2xl text-yellow-400" />
                 <IoStar className="text-2xl text-yellow-400" />
                 <IoStar className="text-2xl text-yellow-400" />
                 <IoStar className="text-2xl text-yellow-400" />
                 <IoStarSharp className="text-2xl text-gray-400" />
-                <span className="text-secondary">(223)</span>
+                <span className="text-secondary">{data?.total}</span>
               </div>
               <span className="text-secondary/20">|</span>
-              <div className="flex items-center gap-4">
-                <FaCheck className="text-green-500" />
+              {/* <div className="flex items-center gap-4">
+                <CiShoppingBasket className="text-primary text-3xl font-medium" />
                 <p className="text-base text-primary font-bold">
-                  4,320 <span className="font-normalnormal">Sold</span>
+                  {data?.stock} <span className="font-normalnormal">Stock</span>
                 </p>
-              </div>
-              <span className="text-secondary/20">|</span>
+              </div> */}
+              {/* <span className="text-secondary/20">|</span> */}
               <div className="flex items-center gap-4">
                 <FaHeart className="text-secondary/30" />
                 <p className="text-lg text-brand ">Add to wishlist</p>
@@ -156,22 +149,25 @@ const ProductDetails = () => {
             {/* Price  */}
 
             <div className="flex items-center gap-5 pb-6">
-              <h3 className="text-brand text-4xl font-semibold">$976.33</h3>
+              <h3 className="text-brand text-4xl font-semibold">${data?.price}</h3>
               <p className="text-xl text-secondary/40 line-through">
-                $1,020.99
+               $ {data?.price + data?.discountPercentage}
               </p>
-              <p className="bg-badge py-1 px-3 text-white">20%</p>
+              <p className="bg-badge py-1 px-3 text-white rounded-full">- ${data?.discountPercentage}</p>
             </div>
 
             {/* Code & details */}
 
             <div className="flex gap-3 items-center text-primary/50 text-base pb-8">
               <p className="">
-                <span className="font-bold text-primary">SKU:</span> 12314124124
+                <span className="font-bold text-primary">Brand:</span> {data?.brand}
+              </p>
+              <p className="">
+                <span className="font-bold text-primary">SKU:</span> {data?.sku}
               </p>
               <span className="flex gap-1 items-center">
                 <FaCheckCircle className="text-green-500" />
-                In Stock
+                {data?.availabilityStatus}
               </span>
             </div>
 
@@ -183,12 +179,6 @@ const ProductDetails = () => {
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam
               </h4>
-              <ol className="list-disc pl-5 space-y-3 text-secondary">
-                <li>Direct Full Array</li>
-                <li>Quantum Dot Technology</li>
-                <li>Ambient Mode</li>
-                <li>One Remote Control</li>
-              </ol>
             </div>
 
             {/* Size */}
