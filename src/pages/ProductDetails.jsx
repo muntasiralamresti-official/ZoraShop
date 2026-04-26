@@ -15,6 +15,8 @@ const ProductDetails = () => {
   const { data } = useGetProductDetailsQuery(id);
   const [liked, setLiked] = useState(false);
 
+  
+
   const [selectedSize, setSelectedSize] = useState("xl");
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -151,11 +153,12 @@ const ProductDetails = () => {
             {/* Price  */}
 
             <div className="flex items-center gap-5 pb-6">
-              <h3 className="text-brand text-4xl font-semibold">${data?.price}</h3>
+              <h3 className="text-brand text-4xl font-semibold">${(data?.price * quantity).toFixed(2)}</h3>
+
               <p className="text-xl text-secondary/40 line-through">
-               $ {data?.price + data?.discountPercentage}
+               $ {((data?.price + data?.discountPercentage)* quantity).toFixed(2)}
               </p>
-              <p className="bg-badge py-1 px-3 text-white rounded-full">- ${data?.discountPercentage}</p>
+              <p className="bg-badge py-1 px-3 text-white rounded-full">- ${(data?.discountPercentage * quantity).toFixed(2)}</p>
             </div>
 
             {/* Code & details */}
@@ -185,7 +188,7 @@ const ProductDetails = () => {
 
             {/* Size */}
 
-            <div className="flex gap-4 items-center pb-8">
+            {/* <div className="flex gap-4 items-center pb-8">
               <p className="text-lg">Size:</p>
               {SIZES.map((item) => (
                 <label
@@ -204,7 +207,7 @@ const ProductDetails = () => {
                   />
                 </label>
               ))}
-            </div>
+            </div> */}
             {/* Quantity */}
 
             <div className="flex items-center gap-9">
