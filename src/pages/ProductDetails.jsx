@@ -11,11 +11,9 @@ import Testimonials from "../components/Home/Testimonials";
 import { useGetProductDetailsQuery } from "../Services/Api";
 
 const ProductDetails = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const { data } = useGetProductDetailsQuery(id);
   const [liked, setLiked] = useState(false);
-
-  
 
   const [selectedSize, setSelectedSize] = useState("xl");
   const [nav1, setNav1] = useState(null);
@@ -66,13 +64,12 @@ const ProductDetails = () => {
               <span>
                 <IoChevronForward />
               </span>
-              
               <span className="flex gap-1 capitalize items-center">
-               {data?.category}
+                {data?.category}
                 <IoChevronForward />
               </span>
               <span className="text-secondary/70 capitalize">
-               {data?.title}
+                {data?.title}
               </span>
             </p>
             <div className="grid grid-cols-4 gap-10">
@@ -83,12 +80,10 @@ const ProductDetails = () => {
                 ref={(slider) => (sliderRef1 = slider)}
               >
                 {data?.images.map((item) => (
-                <div key={item}>
-                  <img src={item} alt="" className="w-full" />
-                </div>
-
+                  <div key={item}>
+                    <img src={item} alt="" className="w-full" />
+                  </div>
                 ))}
-                
               </Slider>
               <Slider
                 asNavFor={nav1}
@@ -99,11 +94,10 @@ const ProductDetails = () => {
                 {...settingSmalls}
               >
                 {data?.images.map((item) => (
-                <div key={item}>
-                  <img src={item} alt="" className="w-full" />
-                </div>
+                  <div key={item}>
+                    <img src={item} alt="" className="w-full" />
+                  </div>
                 ))}
-                
               </Slider>
             </div>
             <div className="flex items-center gap-3 pt-5">
@@ -120,21 +114,25 @@ const ProductDetails = () => {
           {/* Product Short Details */}
           <div className="pt-10">
             <h2 className="font-medium text-26 text-primary max-w-[611px]">
-             {data?.title}
+              {data?.title}
             </h2>
 
             {/* Star */}
             <div className="flex gap-3 pt-5 pb-8 items-center">
               <div className="flex items-center gap-1  ">
                 <span className="text-secondary ">{data?.rating}</span>
-                {[...Array(5)].map((_, i) => (
-                   i < Math.round(data?.rating)
-                     ? <IoStar key={i} className="text-yellow-400 text-xl" />
-                     : <IoStarSharp key={i} className="text-gray-300 text-xl" />
-                 ))}
+                {[...Array(5)].map((_, i) =>
+                  i < Math.round(data?.rating) ? (
+                    <IoStar key={i} className="text-yellow-400 text-xl" />
+                  ) : (
+                    <IoStarSharp
+                      key={i}
+                      className="text-secondary-300 text-xl"
+                    />
+                  ),
+                )}
 
                 <span className="text-secondary">{data?.total}</span>
-                
               </div>
               <span className="text-secondary/20">|</span>
               {/* <div className="flex items-center gap-4">
@@ -144,8 +142,13 @@ const ProductDetails = () => {
                 </p>
               </div> */}
               {/* <span className="text-secondary/20">|</span> */}
-              <div onClick={()=> setLiked(!liked)} className="flex items-center gap-4 cursor-pointer">
-                <FaHeart  className={liked ? "text-red-500" : "text-gray-400"} />
+              <div
+                onClick={() => setLiked(!liked)}
+                className="flex items-center gap-4 cursor-pointer"
+              >
+                <FaHeart
+                  className={liked ? "text-red-500" : "text-secondary-400"}
+                />
                 <p className="text-lg text-brand ">Add to wishlist</p>
               </div>
             </div>
@@ -153,19 +156,27 @@ const ProductDetails = () => {
             {/* Price  */}
 
             <div className="flex items-center gap-5 pb-6">
-              <h3 className="text-brand text-4xl font-semibold">${(data?.price * quantity).toFixed(2)}</h3>
+              <h3 className="text-brand text-4xl font-semibold">
+                ${(data?.price * quantity).toFixed(2)}
+              </h3>
 
               <p className="text-xl text-secondary/40 line-through">
-               $ {((data?.price + data?.discountPercentage)* quantity).toFixed(2)}
+                ${" "}
+                {((data?.price + data?.discountPercentage) * quantity).toFixed(
+                  2,
+                )}
               </p>
-              <p className="bg-badge py-1 px-3 text-white rounded-full">- ${(data?.discountPercentage * quantity).toFixed(2)}</p>
+              <p className="bg-badge py-1 px-3 text-white rounded-full">
+                - ${(data?.discountPercentage * quantity).toFixed(2)}
+              </p>
             </div>
 
             {/* Code & details */}
 
             <div className="flex gap-3 items-center text-primary/50 text-base pb-8">
               <p className="">
-                <span className="font-bold text-primary">Brand:</span> {data?.brand}
+                <span className="font-bold text-primary">Brand:</span>{" "}
+                {data?.brand}
               </p>
               <p className="">
                 <span className="font-bold text-primary">SKU:</span> {data?.sku}
@@ -260,13 +271,23 @@ const ProductDetails = () => {
 
             <div className="flex justify-between pl-6 text-primary text-lg font-secondary">
               <ol className="list-disc">
-                <li><b>Availability:</b> {data?.availabilityStatus}</li>
-                <li><b>Minimum Order:</b> {data?.minimumOrderQuantity}</li>
-                <li><b>Warranty:</b> {data?.warrantyInformation}</li>
+                <li>
+                  <b>Availability:</b> {data?.availabilityStatus}
+                </li>
+                <li>
+                  <b>Minimum Order:</b> {data?.minimumOrderQuantity}
+                </li>
+                <li>
+                  <b>Warranty:</b> {data?.warrantyInformation}
+                </li>
               </ol>
               <ol className="list-disc">
-                <li><b>Shipping:</b> {data?.shippingInformation}</li>
-                <li><b>Return Policy:</b> {data?.returnPolicy}</li>
+                <li>
+                  <b>Shipping:</b> {data?.shippingInformation}
+                </li>
+                <li>
+                  <b>Return Policy:</b> {data?.returnPolicy}
+                </li>
               </ol>
             </div>
           </div>

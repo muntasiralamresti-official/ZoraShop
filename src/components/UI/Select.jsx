@@ -21,7 +21,7 @@ const Select = ({
         value={value}
         onChange={onChange}
         className={`w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-brand 
-        ${error ? "border-red-500" : "border-gray-300"} ${className}`}
+        ${error ? "border-red-500" : "border-secondary-300"} ${className}`}
       >
         <option disabled hidden>
           {placeholder}

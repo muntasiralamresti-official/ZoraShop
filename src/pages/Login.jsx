@@ -1,9 +1,33 @@
-import React from "react";
-import { Link, Links } from "react-router";
+import React, { useState } from "react";
+import { Link, useNavigate} from "react-router";
 import Input from "../components/UI/Input";
 import Button from "../components/UI/Button";
+import { useLoginMutation } from "../Services/Api";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const [login] = useLoginMutation();
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+
+   const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const log = await login(loginData).unwrap();
+
+    localStorage.setItem("user", JSON.stringify(log));
+
+    navigate("/");
+    window.location.reload();
+  } catch (err) {
+    alert(err?.data?.message || "Login failed");
+  }
+};
+
+  
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-badge-secondary">
       <div className="w-full max-w-md bg-white rounded-2xl border-primary border-2 p-8">
@@ -16,13 +40,14 @@ const Login = () => {
         </div>
 
         {/* Form */}
-        <form className="space-y-4">
-          {/* Email */}
+        <form className="space-y-4" onSubmit={handleLogin}>
+          {/* Username */}
           <div>
             <Input
-              label="Email"
-              type="email"
-              placeholder="Enter your Email"
+              label="Username"
+              type="text"
+              placeholder="Enter your Username"
+              onChange={(e) => setLoginData((prev) => ({...prev, username: e.target.value}))}
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
             />
           </div>
@@ -30,8 +55,9 @@ const Login = () => {
           <div>
             <Input
               label="Password"
-              type="email"
+              type="Password"
               placeholder="Enter your Password"
+              onChange={(e) => setLoginData((prev) => ({...prev, password: e.target.value}))}
               className="w-full mt-1 px-4 py-2 border border-secondary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand"
             />
           </div>
@@ -44,22 +70,21 @@ const Login = () => {
               label="Remember me"
               className="accent-brand flex items-center gap-2 text-secondary"
             />
-            <Link to="/Forget">
-              <a href="#" className="text-brand hover:underline">
+            <Link to="/Forget" className="text-brand hover:underline">
                 Forgot Password?
-              </a>
+             
             </Link>
           </div>
 
           {/* Button */}
-          <Link to="/">
+          
             <Button
               type="submit"
               className="w-full bg-brand text-white py-2 rounded-lg hover:bg-brandtransition duration-300"
             >
               Login
             </Button>
-          </Link>
+      
         </form>
 
         {/* Divider */}
@@ -70,16 +95,22 @@ const Login = () => {
         </div>
 
         {/* Social Login */}
-        <Link to="/" className="space-y-3">
-          <Button className="w-full border border-secondary/30 py-2 rounded-lg  flex items-center justify-center gap-2">
-            <img src="/google.png" alt="" className="w-8 h-8" />
-            Continue with Google
-          </Button>
-          <Button className="w-full border border-secondary/30 py-2 rounded-lg  flex items-center justify-center gap-2">
-            <img src="/facebook.png" alt="" className="w-8 h-8" />
-            Continue with Facebook
-          </Button>
-        </Link>
+        
+        <div className="space-y-3">
+           <Link to="/"  className="block">
+             <Button className="w-full border border-secondary/30 py-2 rounded-lg flex items-center justify-center gap-2">
+               <img src="/google.png" className="w-8 h-8" />
+               Continue with Google
+             </Button>
+           </Link>
+
+            <Link to="/" className="block">
+              <Button className="w-full border border-secondary/30 py-2 rounded-lg flex items-center justify-center gap-2">
+                <img src="/facebook.png" className="w-8 h-8" />
+                Continue with Facebook
+              </Button>
+            </Link>
+        </div>
 
         {/* Footer */}
         <p className="text-center text-sm text-secondary mt-6">

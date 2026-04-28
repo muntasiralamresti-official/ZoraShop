@@ -25,10 +25,10 @@ const Error = () => {
             </div>
             <div>
               <p className="text-white">Please try again</p>
-              <p className="text-gray-500">This is the description part</p>
+              <p className="text-secondary">This is the description part</p>
             </div>
           </div>
-          <button className="text-gray-600 hover:bg-white/10 p-1 rounded-md transition-colors ease-linear">
+          <button className="text-secondary-600 hover:bg-white/10 p-1 rounded-md transition-colors ease-linear">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

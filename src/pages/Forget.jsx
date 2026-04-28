@@ -9,7 +9,7 @@ const Forget = () => {
       <div className="w-full max-w-md bg-white rounded-2xl border-primary border-2 p-8">
         {/* Title */}
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-secondary-800">
             Forgot Password 🔐
           </h1>
           <p className="text-sm text-secondary">

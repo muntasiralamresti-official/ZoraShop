@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import Input from "../UI/Input";
 import { IoSearch } from "react-icons/io5";
@@ -8,6 +8,20 @@ import { FaBasketShopping } from "react-icons/fa6";
 import { IoChevronForward } from "react-icons/io5";
 
 const Navbar = () => {
+  
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
+
   const catagories = [
     "Women's Fashion",
     "men's Fashion",
@@ -39,13 +53,24 @@ const Navbar = () => {
 
           {/* Button */}
           <div className="flex gap-5 md:gap-10 order-2 md:order-3 text-nowrap">
-            <Link
-              to="/Register"
-              className="flex gap-1.5 font-normal text-base items-center"
-            >
-              <FaRegUser className="text-xl" />{" "}
-              <span className="hidden md:block">Login</span>{" "}
-            </Link>
+              {user ? (
+                <div className="flex items-center gap-3">
+
+                  <Link to="/profile" className="flex items-center gap-2">
+                    <img src={user.image} className="w-8 h-8 rounded-full" />
+                    <span>{user.firstName}</span>
+                  </Link>
+
+                </div>
+              ) : (
+                <Link
+                      to="/Login"
+                      className="flex gap-1.5 font-normal text-base items-center"
+                    >
+                      <FaRegUser className="text-xl" />{" "}
+                      <span className="hidden md:block">Login</span>{" "}
+                    </Link>
+              )}
             <Link
               to="/Wishlist"
               className="flex gap-1.5 font-normal text-base items-center"

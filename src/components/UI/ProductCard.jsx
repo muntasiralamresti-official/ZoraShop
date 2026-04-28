@@ -4,7 +4,7 @@ import { CiStar } from "react-icons/ci";
 import { FaRegHeart, FaStar } from "react-icons/fa";
 import { useGetProductsQuery } from "../../Services/Api";
 
-const ProductCard = ({ head, price, img, discount, heart , rating}) => {
+const ProductCard = ({ head, price, img, discount, heart, rating }) => {
   const { data } = useGetProductsQuery();
   return (
     <div className="p-2.5 bg-white border border-[#E9E9E9] rounded-2xl flex flex-col h-full">
@@ -22,13 +22,14 @@ const ProductCard = ({ head, price, img, discount, heart , rating}) => {
       <div className="pt-3.5 px-1 flex flex-col flex-grow">
         <div>
           <div className="flex items-center gap-1 text-yellow-400">
-            
-            {[...Array(5)].map((_, i) => (
-                   i < Math.round(rating)
-                  ? <FaStar key={i} className="text-yellow-400" />
-                    : <CiStar key={i} className="text-gray-300" />
-                   ))}
-                 <span className="text-secondary">{ rating }</span>
+            {[...Array(5)].map((_, i) =>
+              i < Math.round(rating) ? (
+                <FaStar key={i} className="text-yellow-400" />
+              ) : (
+                <CiStar key={i} className="text-secondary-300" />
+              ),
+            )}
+            <span className="text-secondary">{rating}</span>
           </div>
           <h4 className="text-xs md:text-lg font-normal text-primary py-2.5">
             {head}

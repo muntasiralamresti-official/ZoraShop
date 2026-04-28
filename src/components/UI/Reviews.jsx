@@ -6,13 +6,11 @@ const Reviews = ({ reviews }) => {
   return (
     <section className="pb-10">
       <div className="container pl-0 space-y-8">
-
         {reviews?.map((review, index) => (
           <div key={index}>
             <div className="flex">
-
               {/* Avatar (auto generate 🔥) */}
-              <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold text-gray-600">
+              <div className="w-14 h-14 rounded-full bg-secondary-200 flex items-center justify-center text-xl font-bold text-secondary-600">
                 {review.reviewerName?.charAt(0)}
               </div>
 
@@ -33,8 +31,8 @@ const Reviews = ({ reviews }) => {
                       i < review.rating ? (
                         <IoStar key={i} />
                       ) : (
-                        <CiStar key={i} className="text-gray-300" />
-                      )
+                        <CiStar key={i} className="text-secondary-300" />
+                      ),
                     )}
                   </div>
 
@@ -46,12 +44,9 @@ const Reviews = ({ reviews }) => {
             </div>
 
             {/* Comment */}
-            <p className="text-secondary/80 mt-6 text-lg">
-              {review.comment}
-            </p>
+            <p className="text-secondary/80 mt-6 text-lg">{review.comment}</p>
           </div>
         ))}
-
       </div>
     </section>
   );
