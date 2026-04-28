@@ -7,11 +7,11 @@ import { useGetProductsQuery } from "../../Services/Api";
 const ProductCard = ({ head, price, img, discount, heart, rating }) => {
   const { data } = useGetProductsQuery();
   return (
-    <div className="p-2.5 bg-white border border-[#E9E9E9] rounded-2xl flex flex-col h-full">
+    <div className="p-2.5 bg-white border border-[#E9E9E9] rounded-2xl flex flex-col h-full ">
       <div className="rounded-2xl overflow-hidden relative">
         <img src={img} alt="product" className="w-full" />
         {discount && (
-          <p className="absolute top-0 left-0 py-1 px-3 bg-badge rounded text-white text-xs">
+          <p className="absolute top-0 left-0 py-1 px-3 bg-badge rounded text-white text-lg">
             -${discount} OFF
           </p>
         )}
@@ -31,7 +31,7 @@ const ProductCard = ({ head, price, img, discount, heart, rating }) => {
             )}
             <span className="text-secondary">{rating}</span>
           </div>
-          <h4 className="text-xs md:text-lg font-normal text-primary py-2.5">
+          <h4 className="text-lg md:text-lg font-normal text-primary py-2.5">
             {head}
           </h4>
         </div>

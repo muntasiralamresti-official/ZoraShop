@@ -12,7 +12,7 @@ const Forget = () => {
           <h1 className="text-2xl font-bold text-secondary-800">
             Forgot Password 🔐
           </h1>
-          <p className="text-sm text-secondary">
+          <p className="text-lg text-secondary">
             Enter your email to reset your password
           </p>
         </div>
@@ -39,7 +39,7 @@ const Forget = () => {
         </form>
 
         {/* Back to Login */}
-        <p className="text-center text-sm text-secondary mt-6">
+        <p className="text-center text-lg text-secondary mt-6">
           Remember your password?{" "}
           <Link to="/login">
             <span className="text-brand hover:underline">Back to Login</span>

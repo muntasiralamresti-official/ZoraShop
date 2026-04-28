@@ -12,7 +12,7 @@ const Select = ({
   return (
     <div className="w-full">
       {label && (
-        <label className="inline-block mb-1 text-sm font-medium text-secondary">
+        <label className="inline-block mb-1 text-lg font-medium text-secondary">
           {label}
         </label>
       )}
@@ -34,7 +34,7 @@ const Select = ({
         ))}
       </select>
 
-      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+      {error && <p className="mt-1 text-lg text-red-500">{error}</p>}
     </div>
   );
 };

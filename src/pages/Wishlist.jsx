@@ -13,7 +13,7 @@ const Wishlist = () => {
         <h1 className="text-2xl font-bold text-primary flex items-center pb-2">
           My Wishlist
         </h1>
-        <p className="text-sm text-secondary pb-3">Your saved favorite items</p>
+        <p className="text-lg text-secondary pb-3">Your saved favorite items</p>
       </div>
 
       <Link

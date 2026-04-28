@@ -48,12 +48,12 @@ const Profile = () => {
         <div className="grid md:grid-cols-2 gap-6 mt-6">
           <div className="bg-secondary-50 p-4 rounded-xl">
             <h3 className="font-semibold mb-2">📦 My Orders</h3>
-            <p className="text-sm text-secondary">You have no recent orders.</p>
+            <p className="text-lg text-secondary">You have no recent orders.</p>
           </div>
 
           <div className="bg-secondary-50 p-4 rounded-xl">
             <h3 className="font-semibold mb-2">⚙️ Account Settings</h3>
-            <p className="text-sm text-secondary">
+            <p className="text-lg text-secondary">
               Manage your account preferences.
             </p>
           </div>

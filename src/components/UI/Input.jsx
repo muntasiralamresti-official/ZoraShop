@@ -12,7 +12,7 @@ const Input = ({
 }) => {
   if (type === "checkbox") {
     return (
-      <label className="flex items-center gap-2 text-sm text-secondary">
+      <label className="flex items-center gap-2 text-lg text-secondary">
         <input type="checkbox" className="accent-brand" {...props} />
         {label}
       </label>
@@ -22,7 +22,7 @@ const Input = ({
   return (
     <div className="w-full">
       {label && (
-        <label className="block mb-1 text-sm font-medium text-secondary">
+        <label className="block mb-1 text-lg font-medium text-secondary">
           {label}
         </label>
       )}
@@ -38,7 +38,7 @@ const Input = ({
         {...props}
       />
 
-      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+      {error && <p className="mt-1 text-lg text-red-500">{error}</p>}
     </div>
   );
 };

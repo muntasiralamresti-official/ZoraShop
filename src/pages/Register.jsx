@@ -12,7 +12,7 @@ const Register = () => {
           <h1 className="text-2xl font-bold text-secondary-800">
             Create Account 🚀
           </h1>
-          <p className="text-sm text-secondary">Join Zora and start shopping</p>
+          <p className="text-lg text-secondary">Join Zora and start shopping</p>
         </div>
 
         {/* Form */}
@@ -69,7 +69,7 @@ const Register = () => {
 
           <div className="flex items-center gap-2 my-3">
             <div className="flex-1 h- bg-secondary/20"></div>
-            <span className="text-xs text-secondary">OR</span>
+            <span className="text-lg text-secondary">OR</span>
             <div className="flex-1 h- bg-secondary/20"></div>
           </div>
 
@@ -87,7 +87,7 @@ const Register = () => {
         </form>
 
         {/* Footer */}
-        <p className="text-center text-sm text-secondary mt-6">
+        <p className="text-center text-lg text-secondary mt-6">
           Already have an account?{" "}
           <Link to="/login">
             <span className="text-brand hover:underline">Login</span>

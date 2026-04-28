@@ -6,6 +6,7 @@ import Button from "../UI/Button";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { FaBasketShopping } from "react-icons/fa6";
 import { IoChevronForward } from "react-icons/io5";
+import SearchBox from "../UI/SearchBox";
 
 const Navbar = () => {
   
@@ -44,15 +45,16 @@ const Navbar = () => {
 
             {/* Search Bar */}
           </div>
-          <div className="search-bar bg-[#F1F1F1] flex items-center rounded-md h-fit w-full">
-            <Input placeholder="'I'm looking for..." className="border-none" />
+          <div className="search-bar bg-[#F1F1F1] flex items-center rounded-md h-fit w-full order-3 md:order-2">
+            {/* <Input placeholder="'I'm looking for..." className="border-none" />
             <Button className="rounded-l-none px-4">
               <IoSearch className="text-[28px]" />
-            </Button>
+            </Button> */}
+            <SearchBox/>
           </div>
 
           {/* Button */}
-          <div className="flex gap-5 md:gap-10 order-2 md:order-3 text-nowrap">
+          <div className="flex gap-5 sm:gap-10  order-2 md:order-3 text-nowrap">
               {user ? (
                 <div className="flex items-center gap-3">
 
