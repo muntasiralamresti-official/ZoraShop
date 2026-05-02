@@ -3,9 +3,12 @@ import { BiCart } from "react-icons/bi";
 import { CiStar } from "react-icons/ci";
 import { FaRegHeart, FaStar } from "react-icons/fa";
 import { useGetProductsQuery } from "../../Services/Api";
+import { useNavigate } from "react-router";
 
 const ProductCard = ({ head, price, img, discount, heart, rating }) => {
   const { data } = useGetProductsQuery();
+
+  const navigate = useNavigate();
   return (
     <div className="p-2.5 bg-white border border-[#E9E9E9] rounded-2xl flex flex-col h-full ">
       <div className="rounded-2xl overflow-hidden relative">
@@ -39,7 +42,7 @@ const ProductCard = ({ head, price, img, discount, heart, rating }) => {
           <p className="font-medium text-base md:text-2xl text-brand">
             ${price}
           </p>
-          <BiCart className="text-lg md:text-3xl text-brand" />
+          <BiCart onClick={() => navigate("/mycart")} className="text-lg md:text-3xl text-brand" />
         </div>
       </div>
     </div>

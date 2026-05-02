@@ -17,3 +17,8 @@ export const removeFromWishlist = (id) => {
   const wishlist = getWishlist().filter((item) => item.id !== id);
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
 };
+
+export const getWishlistCount = () => {
+  const list = getWishlist();
+  return list.length;
+};

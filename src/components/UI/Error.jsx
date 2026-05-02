@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./Button";
 
 const Error = () => {
   return (
@@ -28,7 +29,7 @@ const Error = () => {
               <p className="text-secondary">This is the description part</p>
             </div>
           </div>
-          <button className="text-secondary-600 hover:bg-white/10 p-1 rounded-md transition-colors ease-linear">
+          <Button className="text-secondary-600 hover:bg-white/10 p-1 rounded-md transition-colors ease-linear">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -43,7 +44,7 @@ const Error = () => {
                 d="M6 18 18 6M6 6l12 12"
               ></path>
             </svg>
-          </button>
+          </Button>
         </div>
       </div>
     </>

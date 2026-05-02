@@ -9,8 +9,10 @@ import { IoChevronForward } from "react-icons/io5";
 import SearchBox from "../UI/SearchBox";
 import { useGetCategoryListQuery } from "../../Services/Api";
 import { useRef } from "react";
+import { getCartCount } from "../../Services/cart";
+import { getWishlistCount } from "../../Services/wishlist";
 
-const Navbar = () => {
+const Navbar = ({ setOpenCart }) => {
 const { data } = useGetCategoryListQuery();
 
 const [active, setActive] = useState(null);
@@ -19,8 +21,33 @@ const scrollRef = useRef(null);
 const [direction, setDirection] = useState("right");
 
 
+
+// My Cart
+
+const [count, setCount] = useState(0);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setCount(getCartCount());
+  }, 500);
+
+  return () => clearInterval(interval);
+}, []);
+
+
+// Wishlist
+
+ const [wishCount, setWishCount] = useState(0);
+
+ useEffect(() => {
+  const interval = setInterval(() => {
+    setWishCount(getWishlistCount());
+  }, 500);
+
+  return () => clearInterval(interval);
+}, []);
   
-  
+  // User
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -60,15 +87,6 @@ const [direction, setDirection] = useState("right");
   };
 
 
-  // const catagories = [
-  //   "Women's Fashion",
-  //   "men's Fashion",
-  //   "Kid's Fashion",
-  //   "Home & Lifestyle",
-  //   "Arts & Crafts",
-  //   "Computer & Electronics",
-  //   "Food & Grocery",
-  // ];
 
   return (
     <header>
@@ -83,10 +101,6 @@ const [direction, setDirection] = useState("right");
             {/* Search Bar */}
           </div>
           <div className="search-bar bg-[#F1F1F1] flex items-center rounded-md h-fit w-full order-3 md:order-2">
-            {/* <Input placeholder="'I'm looking for..." className="border-none" />
-            <Button className="rounded-l-none px-4">
-              <IoSearch className="text-[28px]" />
-            </Button> */}
             <SearchBox/>
           </div>
 
@@ -110,23 +124,23 @@ const [direction, setDirection] = useState("right");
                       <span className="hidden md:block">Login</span>{" "}
                     </Link>
               )}
-            <Link
-              to="/wishlist"
-              className="flex gap-1.5 font-normal text-base items-center"
-            >
-              <FaRegHeart className="text-xl" />{" "}
-              <span className="hidden md:block">Wishlist</span>{" "}
+            <Link to="/wishlist"  className="relative flex gap-1.5 font-normal text-base items-center" >
+              <FaRegHeart className="text-xl" />
+              <span className="hidden md:block">Wishlist</span>
+                {wishCount > 0 && (
+                  <span className="absolute -top-2 -right-3 w-5 h-5 bg-red-500 flex items-center justify-center rounded-full text-white text-[12px]">
+                    {wishCount}
+                  </span>
+                )}
             </Link>
-            <Link
-              to="/mycart"
-              className="flex gap-1.5 font-normal text-base items-center"
-            >
+            
+            <div onClick={() => setOpenCart(true)} className="relative flex gap-1.5 cursor-pointer items-center">
               <FaBasketShopping className="text-xl" />{" "}
               <span className="hidden md:block">My Cart</span>{" "}
-              <span className="w-5 h-5 bg-red-500 flex items-center justify-center rounded-full text-white text-[12px]">
-                1
+              <span className="absolute -top-2 -right-3 w-5 h-5 bg-red-500 flex items-center justify-center rounded-full text-white text-[12px]">
+                {count}
               </span>
-            </Link>
+            </div>
           </div>
         </div>
       </nav>

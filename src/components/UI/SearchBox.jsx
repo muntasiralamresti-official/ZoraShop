@@ -149,13 +149,13 @@ const SearchBox = () => {
                   </p>
 
                   {trendingSearch.map((item, i) => (
-                    <button
+                    <Button
                       key={i}
                       onClick={() => setQuery(item)}
                       className="block text-left w-full py-1 text-lg hover:text-brand"
                     >
                       {item}
-                    </button>
+                    </Button>
                   ))}
                 </>
               )}

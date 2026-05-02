@@ -4,13 +4,14 @@ import { NextArrow, PrevArrow } from "../components/ui/Arrows";
 import { IoChevronForward, IoStar, IoStarSharp } from "react-icons/io5";
 import { FaHeart, FaCheckCircle } from "react-icons/fa";
 import Button from "../components/UI/Button";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import Testimonials from "../components/Home/Testimonials";
 import { useGetProductDetailsQuery } from "../Services/Api";
-import { addToWishlist, getWishlist } from "../Services/wishlist";
+import { addToWishlist, getWishlist, getWishlistCount } from "../Services/wishlist";
+import { addToCart } from "../Services/cart";
 // import { addToWishlist, getWishlist } from "../utils/wishlist";
 
-const ProductDetails = () => {
+const ProductDetails = ({ setOpenCart }) => {
   const { id } = useParams();
   const { data } = useGetProductDetailsQuery(id);
 
@@ -22,6 +23,8 @@ const ProductDetails = () => {
 
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
+
+  const navigate=useNavigate();
 
   useEffect(() => {
     setNav1(sliderRef1);
@@ -37,15 +40,16 @@ const ProductDetails = () => {
   }, [data]);
 
   const increaseQty = () => {
-  setQuantity((prev) => {
-    if (prev < data?.stock) {
-      return prev + 1;
-    } else {
-      return prev;
-    }
-  });
-};
+    setQuantity((prev) => {
+      if (prev < data?.stock) {
+        return prev + 1;
+      } else {
+        return prev;
+      }
+    });
+  };
   const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
 
   const handleWishlist = () => {
     addToWishlist({
@@ -75,6 +79,12 @@ const ProductDetails = () => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
+
+
+  // Cart
+
+  const [showToast, setShowToast] = useState(false);
+const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <>
@@ -158,17 +168,16 @@ const ProductDetails = () => {
                 <span className="text-secondary">{data?.total}</span>
               </div>
               <span className="text-secondary/20">|</span>
-              
 
               <div
-              onClick={handleWishlist}
-              className="flex items-center gap-3 cursor-pointer pt-5"
-            >
-              <FaHeart
-                className={liked ? "text-red-500" : "text-gray-400"}
-              />
-              <span>Add to Wishlist</span>
-            </div>
+                onClick={handleWishlist}
+                className="flex items-center gap-3 cursor-pointer"
+              >
+                <FaHeart
+                  className={liked ? "text-red-500" : "text-secondary"}
+                />
+                <span>Add to Wishlist</span>
+              </div>
             </div>
 
             {/* Price  */}
@@ -239,35 +248,59 @@ const ProductDetails = () => {
             </div> */}
             {/* Quantity */}
 
-            <div className="flex items-center gap-9">
+            <div className="flex items-center gap-7">
               <div className="gap-2 flex items-center">
                 <h3 className="text-secondary/80 ">Quantity: </h3>
                 <div className="flex items-center bg-secondary/30 rounded-md overflow-hidden ">
-                  <button
+                  <Button
                     onClick={decreaseQty}
-                    className="px-3 py-2 text-lg text-secondary/50"
+                    className="px-3 py-2 text-lg text-secondary/50 "
                   >
                     {" "}
                     -
-                  </button>
+                  </Button>
 
-                  <span className="px-3 py-1.5 bg-white text-lg font-medium">
+                  <span className="px-4 py-2 bg-white text-xl font-medium">
                     {" "}
                     {quantity}
                   </span>
 
-                  <button
+                  <Button
                     onClick={increaseQty}
                     className="px-3 py-2 text-lg text-secondary/50"
                   >
                     +
-                  </button>
+                  </Button>
                 </div>
               </div>
-              <Button className="bg-brand text-white font-medium text-xl py-3 px-11 rounded-md">
+              {/* <Button className="bg-brand text-white font-medium text-xl py-3 px-11 rounded-md">
                 Add Cart
-              </Button>
-              <Button className="!text-brand bg-brand/10 font-bold border-2 border-brand text-xl py-3 px-11 rounded-md">
+              </Button> */}
+
+              {/* Change Korci 2-5-2026 */}
+              <Button 
+                      onClick={() => {
+                        addToCart({
+                          id: data.id,
+                          title: data.title,
+                          price: data.price,
+                          thumbnail: data.thumbnail,
+                          quantity: quantity,
+                       });
+
+                        setSelectedProduct(data);
+                        setShowToast(true);
+
+                        setTimeout(() => {
+                          setShowToast(false);
+                        }, 2000);
+                      }}
+
+                      
+                      className="bg-brand text-white font-medium text-xl py-3 px-11 rounded-md">
+                    Add Cart
+                  </Button>
+              <Button onClick={() => navigate("/checkout")} className="!text-brand bg-brand/10 font-bold border-2 border-brand text-xl py-3 px-11 rounded-md">
                 Buy Now
               </Button>
             </div>
@@ -326,7 +359,6 @@ const ProductDetails = () => {
         </div>
       </section>
       <Testimonials reviews={data?.reviews} />
-    
     </>
   );
 };

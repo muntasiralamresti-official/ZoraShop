@@ -1,74 +1,150 @@
-import React from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { getUserOrders } from "../Services/order";
 import Button from "../components/UI/Button";
+import { useNavigate } from "react-router";
 
 const Profile = () => {
+  const [user, setUser] = useState(null);
+  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/");
-    window.location.reload();
+  const getStatusColor = (status) => {
+  if (status === "Pending") return "bg-yellow-100 text-yellow-600";
+  if (status === "Delivered") return "bg-green-100 text-green-600";
+  if (status === "Cancelled") return "bg-red-100 text-red-600";
+  };
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+
+    if (storedUser) {
+      setOrders(getUserOrders(storedUser.id));
+    }
+  }, []);
+
+  const handleCancel = (orderId) => {
+    const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    const updated = allOrders.filter((o) => o.id !== orderId);
+
+    localStorage.setItem("orders", JSON.stringify(updated));
+
+    setOrders(updated.filter((o) => o.userId === user.id));
   };
 
   if (!user) {
-    return (
-      <div className="text-center mt-20">
-        <p>You are not logged in 😐</p>
-        <Button
-          onClick={() => navigate("/Login")}
-          className="mt-4 px-4 py-2 bg-brand text-white rounded"
-        >
-          Go to Login
-        </Button>
-      </div>
-    );
+    return <p className="p-10">Please login first 😅</p>;
   }
 
   return (
-    <div className="min-h-screen bg-secondary/5 p-5">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6">
-        {/* Profile Header */}
-        <div className="flex items-center gap-5 border-b pb-5">
+    <div className="container py-10">
+
+      {/* 👤 Profile Card */}
+      <div className="bg-white p-6 rounded-2xl shadow mb-6">
+        <div className="flex items-center gap-4">
           <img
             src={user.image}
-            alt="user"
-            className="w-20 h-20 rounded-full border bg-brand/20"
+            className="w-16 h-16 rounded-full border"
           />
           <div>
-            <h2 className="text-xl font-semibold">
-              {user.firstName} {user.lastName}
-            </h2>
-            <p className="text-secondary">{user.email}</p>
+            <h2 className="text-xl font-bold">{user.firstName}</h2>
+            <p className="text-gray-500">{user.email}</p>
           </div>
         </div>
 
-        {/* Sections */}
-        <div className="grid md:grid-cols-2 gap-6 mt-6">
-          <div className="bg-secondary-50 p-4 rounded-xl">
-            <h3 className="font-semibold mb-2">📦 My Orders</h3>
-            <p className="text-lg text-secondary">You have no recent orders.</p>
-          </div>
+        <hr className="my-5" />
 
-          <div className="bg-secondary-50 p-4 rounded-xl">
-            <h3 className="font-semibold mb-2">⚙️ Account Settings</h3>
-            <p className="text-lg text-secondary">
-              Manage your account preferences.
+        <div className="flex justify-between">
+          <div>
+            <h3 className="font-semibold">📦 My Orders</h3>
+            <p className="text-gray-500 text-sm">
+              {orders.length === 0
+                ? "You have no recent orders."
+                : `${orders.length} orders found`}
             </p>
           </div>
-        </div>
 
-        {/* Logout */}
-        <div className="mt-8 text-right">
           <Button
-            onClick={handleLogout}
-            className="px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+            onClick={() => {
+              localStorage.removeItem("user");
+              window.location.reload();
+            }}
+            className="bg-red-500 text-white px-4 py-2 rounded"
           >
             Logout
           </Button>
         </div>
       </div>
+
+      {/* 🛒 Order List */}
+      <div className="space-y-4">
+  {orders.length === 0 ? (
+    <p className="text-center text-gray-500">
+      No orders yet 😢
+    </p>
+  ) : (
+    orders.map((order) => (
+      <div
+        key={order.id}
+        className="bg-white p-5 rounded-xl shadow"
+      >
+        <p className="text-sm text-gray-400 mb-2">
+          {order.date}
+        </p>
+
+        {/* Items */}
+        {order.items.map((item) => (
+          <div
+            key={item.id}
+            className="flex justify-between text-sm"
+          >
+            <span>{item.title}</span>
+            <span>
+              {item.quantity} × ${item.price}
+            </span>
+          </div>
+        ))}
+
+        {/* Status + Actions */}
+        <div className="flex justify-between items-center mt-3">
+
+          {/* Status */}
+          <span
+            className={`px-2 py-1 text-xs rounded ${getStatusColor(order.status)}`}
+          >
+            {order.status}
+          </span>
+
+          <div className="flex gap-2">
+            
+            {/* Details */}
+            <Button
+              onClick={() => navigate(`/order/${order.id}`)}
+              className="bg-blue-500 text-white px-3 py-1 rounded text-sm"
+            >
+              Details
+            </Button>
+
+            {/* Cancel */}
+            {order.status === "Pending" && (
+              <Button
+                onClick={() => handleCancel(order.id)}
+                className="bg-red-500 text-white px-3 py-1 rounded text-sm"
+              >
+                Cancel
+              </Button>
+            )}
+          </div>
+        </div>
+
+        <p className="text-right font-bold mt-2">
+          Total: ${order.total.toFixed(2)}
+        </p>
+      </div>
+    ))
+  )}
+</div>
     </div>
   );
 };

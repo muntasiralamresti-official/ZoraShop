@@ -4,6 +4,7 @@ import { FaHeart, FaTrash } from "react-icons/fa";
 import ProductCard from "../components/UI/ProductCard";
 import Loading from "../components/UI/Loading";
 import { getWishlist, removeFromWishlist } from "../Services/wishlist";
+import Button from "../components/UI/Button";
 // import { getWishlist, removeFromWishlist } from "../utils/wishlist";
 
 const Wishlist = () => {
@@ -46,7 +47,7 @@ const Wishlist = () => {
               </Link>
 
               {/* Delete */}
-              <button
+              <Button
                 onClick={(e) => {
                   e.preventDefault();
                   removeFromWishlist(item.id);
@@ -55,7 +56,7 @@ const Wishlist = () => {
                 className="absolute top-2 right-2 bg-white p-2 rounded-full shadow"
               >
                 <FaTrash className="text-red-500" />
-              </button>
+              </Button>
             </div>
           ))
         )}

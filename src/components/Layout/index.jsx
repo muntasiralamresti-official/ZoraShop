@@ -4,10 +4,10 @@ import Navbar from './Navbar'
 import Services from './Services'
 import Footer from './Footer'
 
-const Layout = () => {
+const Layout = ({ setOpenCart }) => {
   return (
     <>
-     <Navbar/>
+     <Navbar setOpenCart={setOpenCart} />
      <Outlet/>
      <Services/>
      <Footer/>

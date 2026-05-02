@@ -71,7 +71,7 @@ const Shop = () => {
               <Link
                 to={`/shop?category=${item}`}
                 key={item}
-                className="block text-base text-secondary"
+                className="block text-base text-secondary capitalize"
               >
                 {item}
               </Link>
