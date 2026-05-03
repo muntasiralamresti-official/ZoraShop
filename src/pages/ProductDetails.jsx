@@ -247,7 +247,7 @@ const [selectedProduct, setSelectedProduct] = useState(null);
               ))}
             </div> */}
 
-            
+
             {/* Quantity */}
 
             <div className="flex items-center gap-7">
@@ -320,8 +320,8 @@ const [selectedProduct, setSelectedProduct] = useState(null);
               Everything You Need to Know About This Product
             </h4>
 
-            <div className="flex justify-between pl-6 text-primary text-lg font-secondary">
-              <ol className="list-disc">
+            <div className="pl-6 text-primary text-lg font-secondary space-y-4">
+              <ol className="list-disc space-y-2">
                 <li>
                   <b>Availability:</b> {data?.availabilityStatus}
                 </li>
@@ -331,8 +331,6 @@ const [selectedProduct, setSelectedProduct] = useState(null);
                 <li>
                   <b>Warranty:</b> {data?.warrantyInformation}
                 </li>
-              </ol>
-              <ol className="list-disc">
                 <li>
                   <b>Shipping:</b> {data?.shippingInformation}
                 </li>

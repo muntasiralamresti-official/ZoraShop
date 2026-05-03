@@ -152,7 +152,7 @@ const SearchBox = () => {
                     <Button
                       key={i}
                       onClick={() => setQuery(item)}
-                      className="block text-left w-full py-1 text-lg hover:text-brand"
+                      className="block text-left w-full py-1 text-lg bg-transparent !text-primary hover:!text-brand "
                     >
                       {item}
                     </Button>

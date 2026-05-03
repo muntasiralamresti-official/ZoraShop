@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUserOrders } from "../Services/order";
 import Button from "../components/UI/Button";
 import { useNavigate } from "react-router";
+import Direction from "../components/UI/Direction";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -33,13 +34,24 @@ const Profile = () => {
     setOrders(updated.filter((o) => o.userId === user.id));
   };
 
-  if (!user) {
-    return (
-      <p className="py-40 flex justify-center opacity-0 translate-y-4 animate-fadeInUp text-4xl font-semibold">
-        Please login first 😅
+ if (!user) {
+  return (
+    <div className="py-40 flex flex-col items-center justify-center gap-7">
+
+      
+      <img src="./Logo.png" alt="logo" className="w-30 h-16" />
+
+      <p className="text-2xl font-semibold text-center">
+        Explore Your Shopping Experience
       </p>
-    );
-  }
+
+      <Direction onClick={() => navigate("/login")}>
+       Continue with Login
+      </Direction>
+
+    </div>
+  );
+}
 
   return (
     <div className="container py-10">

@@ -88,7 +88,7 @@ const MyCart = ({ openCart, setOpenCart }) => {
 
         <div className="absolute bottom-0 w-full p-4 border-b space-y-3">
           <div className="flex justify-between  border-b">
-            <span className="text-xl">Subtotal</span>
+            <span className="text-xl">Subtotal -</span>
             <span className="text-xl font-bold">${subtotal.toFixed(2)}</span>
           </div>
         <Button onClick={() => { setOpenCart(false);  navigate("/checkout"); }} className="flex justify-center w-full">
