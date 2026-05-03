@@ -32,13 +32,13 @@ const MyCart = ({ openCart, setOpenCart }) => {
       )}
 
       <div
-        className={`fixed top-0 right-0 h-full w-[400px] bg-white z-50
+        className={`fixed top-0 left-0 h-full w-[400px] bg-white z-50
         transition-all duration-300
-        ${openCart ? "translate-x-0" : "translate-x-full"}`}
+        ${openCart ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="p-4 border-b flex justify-between">
           <h2 className="text-xl font-semibold">My Cart</h2>
-          <Button onClick={() => setOpenCart(false)} className="!bg-transparent !shadow-none !p-0 !text-black text-2xl">✖</Button>
+          <Button onClick={() => setOpenCart(false)} className="!bg-transparent !shadow-none !p-0 !text-primary text-2xl">✖</Button>
         </div>
 
         <div className="p-4 space-y-4">
@@ -50,12 +50,7 @@ const MyCart = ({ openCart, setOpenCart }) => {
                  <p className="text-secondary text-lg">
                    Your cart is empty… let’s fix that 😉
                  </p>
-               
-                 {/* <div className="flex gap-2">
-                   <div className="w-3 h-3 bg-pink-400 rounded-full animate-bounce"></div>
-                   <div className="w-3 h-3 bg-purple-400 rounded-full animate-bounce delay-150"></div>
-                   <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce delay-300"></div>
-                 </div> */}
+          
 
                  <Button
                    onClick={() => navigate("/shop")}

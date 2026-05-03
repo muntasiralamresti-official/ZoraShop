@@ -9,9 +9,9 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const getStatusColor = (status) => {
-  if (status === "Pending") return "bg-yellow-100 text-yellow-600";
-  if (status === "Delivered") return "bg-green-100 text-green-600";
-  if (status === "Cancelled") return "bg-red-100 text-red-600";
+    if (status === "Pending") return "bg-yellow-100 text-yellow-600";
+    if (status === "Delivered") return "bg-green-100 text-green-600";
+    if (status === "Cancelled") return "bg-red-100 text-red-600";
   };
 
   useEffect(() => {
@@ -34,22 +34,22 @@ const Profile = () => {
   };
 
   if (!user) {
-    return <p className="p-10">Please login first 😅</p>;
+    return (
+      <p className="py-40 flex justify-center opacity-0 translate-y-4 animate-fadeInUp text-4xl font-semibold">
+        Please login first 😅
+      </p>
+    );
   }
 
   return (
     <div className="container py-10">
-
       {/* 👤 Profile Card */}
       <div className="bg-white p-6 rounded-2xl shadow mb-6">
         <div className="flex items-center gap-4">
-          <img
-            src={user.image}
-            className="w-16 h-16 rounded-full border"
-          />
+          <img src={user.image} className="w-20 h-20 rounded-full border" />
           <div>
             <h2 className="text-xl font-bold">{user.firstName}</h2>
-            <p className="text-gray-500">{user.email}</p>
+            <p className="text-secondary/50">{user.email}</p>
           </div>
         </div>
 
@@ -58,7 +58,7 @@ const Profile = () => {
         <div className="flex justify-between">
           <div>
             <h3 className="font-semibold">📦 My Orders</h3>
-            <p className="text-gray-500 text-sm">
+            <p className="text-secondary text-sm">
               {orders.length === 0
                 ? "You have no recent orders."
                 : `${orders.length} orders found`}
@@ -77,74 +77,62 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* 🛒 Order List */}
+      {/* Order List */}
       <div className="space-y-4">
-  {orders.length === 0 ? (
-    <p className="text-center text-gray-500">
-      No orders yet 😢
-    </p>
-  ) : (
-    orders.map((order) => (
-      <div
-        key={order.id}
-        className="bg-white p-5 rounded-xl shadow"
-      >
-        <p className="text-sm text-gray-400 mb-2">
-          {order.date}
-        </p>
+        {orders.length === 0 ? (
+          <p className="text-center text-secondary">No orders yet 😢</p>
+        ) : (
+          orders.map((order) => (
+            <div key={order.id} className="bg-white p-5 rounded-xl shadow">
+              <p className="text-sm text-secondary mb-2">{order.date}</p>
 
-        {/* Items */}
-        {order.items.map((item) => (
-          <div
-            key={item.id}
-            className="flex justify-between text-sm"
-          >
-            <span>{item.title}</span>
-            <span>
-              {item.quantity} × ${item.price}
-            </span>
-          </div>
-        ))}
+              {/* Items */}
+              {order.items.map((item) => (
+                <div key={item.id} className="flex justify-between text-sm">
+                  <span>{item.title}</span>
+                  <span>
+                    {item.quantity} × ${item.price}
+                  </span>
+                </div>
+              ))}
 
-        {/* Status + Actions */}
-        <div className="flex justify-between items-center mt-3">
+              {/* Status + Actions */}
+              <div className="flex justify-between items-center mt-3">
+                {/* Status */}
+                <span
+                  className={`px-2 py-1 text-xs rounded ${getStatusColor(order.status)}`}
+                >
+                  {order.status}
+                </span>
 
-          {/* Status */}
-          <span
-            className={`px-2 py-1 text-xs rounded ${getStatusColor(order.status)}`}
-          >
-            {order.status}
-          </span>
+                <div className="flex gap-2">
+                  {/* Details */}
+                  <Button
+                    onClick={() => navigate(`/order/${order.id}`)}
+                    className="bg-brand text-white px-3 py-1 rounded text-sm"
+                  >
+                    Details
+                  </Button>
 
-          <div className="flex gap-2">
-            
-            {/* Details */}
-            <Button
-              onClick={() => navigate(`/order/${order.id}`)}
-              className="bg-blue-500 text-white px-3 py-1 rounded text-sm"
-            >
-              Details
-            </Button>
+                  {/* Cancel */}
+                  {order.status === "Pending" && (
+                    <Button
+                      onClick={() => handleCancel(order.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded text-sm"
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </div>
+              </div>
 
-            {/* Cancel */}
-            {order.status === "Pending" && (
-              <Button
-                onClick={() => handleCancel(order.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded text-sm"
-              >
-                Cancel
-              </Button>
-            )}
-          </div>
-        </div>
-
-        <p className="text-right font-bold mt-2">
-          Total: ${order.total.toFixed(2)}
-        </p>
+              <p className="text-right font-bold mt-2">
+                Total: ${order.total.toFixed(2)}
+              </p>
+            </div>
+          ))
+        )}
       </div>
-    ))
-  )}
-</div>
     </div>
   );
 };

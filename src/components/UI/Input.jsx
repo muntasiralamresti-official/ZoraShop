@@ -10,13 +10,19 @@ const Input = ({
   className = "",
   ...props
 }) => {
-  if (type === "checkbox") {
-    return (
-      <label className="flex items-center gap-2 text-lg text-secondary">
-        <input type="checkbox" className="accent-brand" {...props} />
-        {label}
-      </label>
-    );
+  if (type === "checkbox" || type === "radio") {
+  return (
+    <label className="flex items-center gap-2 cursor-pointer text-secondary">
+      <input
+        type={type}
+        className="w-4 h-4 accent-brand"
+        value={value}
+        onChange={onChange}
+        {...props}
+      />
+      {label}
+    </label>
+  );
   }
 
   return (

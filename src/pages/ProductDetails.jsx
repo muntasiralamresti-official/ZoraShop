@@ -246,6 +246,8 @@ const [selectedProduct, setSelectedProduct] = useState(null);
                 </label>
               ))}
             </div> */}
+
+            
             {/* Quantity */}
 
             <div className="flex items-center gap-7">
@@ -273,11 +275,9 @@ const [selectedProduct, setSelectedProduct] = useState(null);
                   </Button>
                 </div>
               </div>
-              {/* <Button className="bg-brand text-white font-medium text-xl py-3 px-11 rounded-md">
-                Add Cart
-              </Button> */}
+              
+              {/* Order Button */}
 
-              {/* Change Korci 2-5-2026 */}
               <Button 
                       onClick={() => {
                         addToCart({

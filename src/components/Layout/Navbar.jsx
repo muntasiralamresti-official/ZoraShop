@@ -161,7 +161,7 @@ useEffect(() => {
           className={`relative font-medium text-[14px] md:text-base uppercase whitespace-nowrap transition-all duration-300
             ${
               active === item
-                ? "text-blue-600"
+                ? "text-brand"
                 : "text-primary hover:text-brand"
             }
           `}

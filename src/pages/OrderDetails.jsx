@@ -15,9 +15,9 @@ const OrderDetails = () => {
           📦 Order #{order.id}
         </h2>
 
-        <p className="text-gray-500 mb-3">{order.date}</p>
+        <p className="text-secondary mb-3">{order.date}</p>
 
-        <span className="px-3 py-1 rounded bg-gray-200 text-sm">
+        <span className="px-3 py-1 rounded bg-secondary/10 text-sm">
           {order.status}
         </span>
 
