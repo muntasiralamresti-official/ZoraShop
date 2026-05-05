@@ -9,7 +9,7 @@ import Register from "./pages/Register";
 import Wishlist from "./pages/Wishlist";
 import ProductDetails from "./pages/ProductDetails";
 // import MyCart from './pages/MyCart'
-import Profile from "./pages/Profile";
+import Profile from "./components/pages/Profile";
 import MyCart from "./pages/MyCart";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
