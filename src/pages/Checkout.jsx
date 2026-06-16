@@ -1,52 +1,111 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
+
 import { useNavigate } from "react-router";
 import Input from "../components/UI/Input";
 import { getCart } from "../Services/cart";
 import { saveOrder } from "../Services/order";
 
 const Checkout = () => {
-  const [cart, setCart] = useState([]);
+  const [cart] = useState(() => getCart());
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setCart(getCart());
-  }, []);
+  const [paymentMethod, setPaymentMethod] = useState("cod"); // cod | mfs | card
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState("");
 
-  const subtotal = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
+  // (demo) card inputs UI only
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
+
+  const subtotal = useMemo(
+    () => cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+    [cart],
   );
 
-  const handleOrder = () => {
+  const isCartEmpty = cart.length === 0;
+
+  const createOrder = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
       alert("⚠️ Please login to place order");
       navigate("/login");
-      return;
+      return null;
     }
 
-    const order = {
-      id: Date.now(),
+    const orderId = new Date().getTime();
+
+    return {
+      id: orderId,
       userId: user.id,
       userName: user.firstName,
       items: cart,
       total: subtotal,
+      paymentMethod,
       date: new Date().toLocaleString(),
       status: "Pending",
     };
+  };
+
+  const handleCashOnDelivery = () => {
+    const order = createOrder();
+    if (!order) return;
 
     saveOrder(order);
-
     localStorage.removeItem("cart_items"); // clear cart
 
     navigate("/success");
   };
 
+  const handleOnlinePayment = async () => {
+    setError("");
+
+    if (paymentMethod === "card") {
+      if (!cardNumber.trim() || !cardExpiry.trim() || !cardCvv.trim()) {
+        setError("Please fill card details.");
+        return;
+      }
+    }
+
+    setIsProcessing(true);
+    try {
+      // Demo payment simulation (no backend/payment gateway integrated)
+      await new Promise((r) => setTimeout(r, 1200));
+
+      const order = createOrder();
+      if (!order) return;
+
+      saveOrder(order);
+      localStorage.removeItem("cart_items");
+
+      navigate("/success");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handlePlaceOrder = () => {
+    setError("");
+
+    if (isCartEmpty) {
+      setError("Your cart is empty. Add products to place order.");
+      return;
+    }
+
+    if (paymentMethod === "cod") {
+      handleCashOnDelivery();
+      return;
+    }
+
+    // Online payments (MFS / Card)
+    handleOnlinePayment();
+  };
+
   return (
     <section className="bg-secondary/10 py-10">
       <div className="container grid md:grid-cols-2 gap-8">
-
         {/* Billing Info */}
         <div className="bg-white p-6 rounded-2xl shadow">
           <h2 className="text-xl font-semibold mb-4">Billing Details</h2>
@@ -65,20 +124,125 @@ const Checkout = () => {
           </div>
 
           {/* Payment */}
-          <div className="space-y-2 pt-3">
-  <Input
-    type="radio"
-    name="payment"
-    label="Cash on Delivery"
-    defaultChecked
-  />
+          <div className="pt-5">
+            <h3 className="font-semibold mb-3">Payment Options</h3>
 
-  <Input
-    type="radio"
-    name="payment"
-    label="Online Payment"
-  />
-</div>
+            <div className="grid gap-3">
+              {/* COD */}
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("cod")}
+                className={`text-left border rounded-2xl p-4 transition ${
+                  paymentMethod === "cod"
+                    ? "border-brand bg-brand/10"
+                    : "bg-white"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    checked={paymentMethod === "cod"}
+                    onChange={() => setPaymentMethod("cod")}
+                  />
+                  <div>
+                    <p className="font-semibold">Cash on Delivery (COD)</p>
+                    <p className="text-sm text-secondary">
+                      Pay when you receive the order.
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+              {/* MFS Online */}
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("mfs")}
+                className={`text-left border rounded-2xl p-4 transition ${
+                  paymentMethod === "mfs"
+                    ? "border-brand bg-brand/10"
+                    : "bg-white"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    checked={paymentMethod === "mfs"}
+                    onChange={() => setPaymentMethod("mfs")}
+                  />
+                  <div>
+                    <p className="font-semibold">MFS Online</p>
+                    <p className="text-sm text-secondary">
+                      Mobile banking via MFS.
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+              {/* Card */}
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("card")}
+                className={`text-left border rounded-2xl p-4 transition ${
+                  paymentMethod === "card"
+                    ? "border-brand bg-brand/10"
+                    : "bg-white"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    checked={paymentMethod === "card"}
+                    onChange={() => setPaymentMethod("card")}
+                  />
+                  <div>
+                    <p className="font-semibold">Card Payment</p>
+                    <p className="text-sm text-secondary">
+                      Visa / MasterCard / Debit.
+                    </p>
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            {/* Online fields */}
+            {(paymentMethod === "mfs" || paymentMethod === "card") && (
+              <div className="mt-4 p-4 rounded-2xl border bg-secondary/10">
+                {paymentMethod === "mfs" ? (
+                  <div>
+                    <p className="font-semibold">MFS Online payment</p>
+                    <p className="text-sm text-secondary mt-1">
+                      Click <b>Pay Now</b> to continue (demo).
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <p className="font-semibold">Card details</p>
+
+                    <Input
+                      className="w-full border p-2 rounded"
+                      placeholder="Card Number"
+                      value={cardNumber}
+                      onChange={(e) => setCardNumber(e.target.value)}
+                    />
+                    <div className="grid grid-cols-2 gap-3">
+                      <Input
+                        className="w-full border p-2 rounded"
+                        placeholder="MM/YY"
+                        value={cardExpiry}
+                        onChange={(e) => setCardExpiry(e.target.value)}
+                      />
+                      <Input
+                        className="w-full border p-2 rounded"
+                        placeholder="CVV"
+                        value={cardCvv}
+                        onChange={(e) => setCardCvv(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Order Summary */}
@@ -125,12 +289,23 @@ const Checkout = () => {
             </div>
           </div>
 
-          {/* Place Order */}
+          {error && <p className="text-red-600 text-sm mt-4">{error}</p>}
+
+          {/* Place Order / Pay Now */}
           <button
-            onClick={handleOrder}
-            className="bg-brand text-white px-6 py-3 rounded"
+            onClick={handlePlaceOrder}
+            disabled={isProcessing || isCartEmpty}
+            className={`mt-6 w-full py-3 rounded transition ${
+              isProcessing || isCartEmpty
+                ? "bg-secondary/40 text-secondary cursor-not-allowed"
+                : "bg-brand text-white hover:scale-[1.01]"
+            }`}
           >
-            Place Order 🚀
+            {isProcessing
+              ? "Processing…"
+              : paymentMethod === "cod"
+                ? "Place Order 🚀"
+                : "Pay Now 💳"}
           </button>
         </div>
       </div>

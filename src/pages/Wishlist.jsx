@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+
 import { Link } from "react-router";
 import { FaHeart, FaTrash } from "react-icons/fa";
 import ProductCard from "../components/UI/ProductCard";
@@ -8,14 +9,8 @@ import Button from "../components/UI/Button";
 // import { getWishlist, removeFromWishlist } from "../utils/wishlist";
 
 const Wishlist = () => {
-  const [wishlist, setWishlist] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const data = getWishlist();
-    setWishlist(data);
-    setLoading(false);
-  }, []);
+  const [wishlist, setWishlist] = useState(() => getWishlist());
+  const loading = false;
 
   return (
     <section className="container bg-[#f5f7fb] py-10">
@@ -25,7 +20,7 @@ const Wishlist = () => {
         </h1>
       </div>
 
-      <div className="grid grid-cols-4 gap-6 pt-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 pt-6">
         {loading ? (
           <div className="col-span-full flex justify-center items-center h-[300px]">
             <Loading />
@@ -51,7 +46,7 @@ const Wishlist = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   removeFromWishlist(item.id);
-                  setWishlist(getWishlist());
+                  setWishlist((prev) => prev.filter((p) => p.id !== item.id));
                 }}
                 className="absolute top-2 right-2 bg-white p-2 rounded-full shadow"
               >

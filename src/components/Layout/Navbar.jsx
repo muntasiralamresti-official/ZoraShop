@@ -45,12 +45,9 @@ const Navbar = ({ setOpenCart }) => {
   }, []);
 
   // User
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    setUser(storedUser);
-  }, []);
+  const [user] = useState(() => {
+    return JSON.parse(localStorage.getItem("user"));
+  });
 
   useEffect(() => {
     if (!autoScroll) return;
@@ -64,24 +61,19 @@ const Navbar = ({ setOpenCart }) => {
         el.scrollLeft += 1;
 
         if (el.scrollLeft >= el.scrollWidth - el.clientWidth) {
-          setDirection("left"); // reverse
+          setDirection("left");
         }
       } else {
         el.scrollLeft -= 1;
 
         if (el.scrollLeft <= 0) {
-          setDirection("right"); // reverse again
+          setDirection("right");
         }
       }
     }, 0);
 
     return () => clearInterval(interval);
   }, [autoScroll, direction]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
-  };
 
   return (
     <header>
@@ -100,7 +92,7 @@ const Navbar = ({ setOpenCart }) => {
           </div>
 
           {/* Button */}
-          <div className="flex gap-5 sm:gap-10  order-2 md:order-3 text-nowrap">
+          <div className="flex gap-3 sm:gap-5 lg:gap-10 order-2 md:order-3 text-nowrap">
             {user ? (
               <div className="flex items-center gap-3">
                 <Link to="/user" className="flex items-center gap-2">
@@ -113,7 +105,7 @@ const Navbar = ({ setOpenCart }) => {
               </div>
             ) : (
               <Link
-                to="/Login"
+                to="/login"
                 className="flex gap-1.5 font-normal text-base items-center"
               >
                 <FaRegUser className="text-xl" />{" "}
@@ -154,10 +146,10 @@ const Navbar = ({ setOpenCart }) => {
           {data?.map((item, i) => (
             <li key={i}>
               <Link
-                to={`/Shop?category=${item}`}
+                to={`/shop?category=${item}`}
                 onClick={() => {
                   setActive(item);
-                  setAutoScroll(false); // stop auto scroll
+                  setAutoScroll(false);
                 }}
                 className={`relative font-medium text-[14px] md:text-base uppercase whitespace-nowrap transition-all duration-300
             ${active === item ? "text-brand" : "text-primary hover:text-brand"}

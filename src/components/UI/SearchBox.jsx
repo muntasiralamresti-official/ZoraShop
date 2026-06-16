@@ -76,7 +76,8 @@ const SearchBox = () => {
     : [];
 
   const trendingSearch = [...(featuredData?.products || [])]
-    .sort(() => 0.5 - Math.random())
+    // stable shuffle to keep render pure (no Math.random during render)
+    .sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0))
     .slice(0, 6)
     .map((p) => p.title);
 
@@ -193,7 +194,7 @@ const SearchBox = () => {
                 </div>
               ) : (
                 <p className="text-center text-secondary/80">
-                  No products found 
+                  No products found
                 </p>
               )}
             </div>

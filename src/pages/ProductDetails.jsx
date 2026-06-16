@@ -7,37 +7,35 @@ import Button from "../components/UI/Button";
 import { Link, useNavigate, useParams } from "react-router";
 import Testimonials from "../components/Home/Testimonials";
 import { useGetProductDetailsQuery } from "../Services/Api";
-import { addToWishlist, getWishlist, getWishlistCount } from "../Services/wishlist";
+import { addToWishlist, getWishlist } from "../Services/wishlist";
+
 import { addToCart } from "../Services/cart";
 // import { addToWishlist, getWishlist } from "../utils/wishlist";
 
-const ProductDetails = ({ setOpenCart }) => {
+const ProductDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductDetailsQuery(id);
 
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(() => {
+    // initial localStorage check to keep render stable
+    const wishlist = getWishlist();
+    return wishlist.some((item) => item?.id === Number(id));
+  });
+
   const [quantity, setQuantity] = useState(1);
 
-  let sliderRef1 = useRef(null);
-  let sliderRef2 = useRef(null);
+  const sliderRef1 = useRef(null);
+  const sliderRef2 = useRef(null);
 
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setNav1(sliderRef1);
-    setNav2(sliderRef2);
+    setNav1(sliderRef1.current);
+    setNav2(sliderRef2.current);
   }, []);
-
-  useEffect(() => {
-    if (data) {
-      const wishlist = getWishlist();
-      const exists = wishlist.find((item) => item.id === data.id);
-      setLiked(!!exists);
-    }
-  }, [data]);
 
   const increaseQty = () => {
     setQuantity((prev) => {
@@ -49,7 +47,6 @@ const ProductDetails = ({ setOpenCart }) => {
     });
   };
   const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-
 
   const handleWishlist = () => {
     addToWishlist({
@@ -80,11 +77,7 @@ const ProductDetails = ({ setOpenCart }) => {
     prevArrow: <PrevArrow />,
   };
 
-
   // Cart
-
-  const [showToast, setShowToast] = useState(false);
-const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <>
@@ -110,7 +103,7 @@ const [selectedProduct, setSelectedProduct] = useState(null);
                 className="max-w-xl col-span-3"
                 {...settingsLarge}
                 asNavFor={nav2}
-                ref={(slider) => (sliderRef1 = slider)}
+                ref={(slider) => (sliderRef1.current = slider)}
               >
                 {data?.images.map((item) => (
                   <div key={item}>
@@ -120,7 +113,7 @@ const [selectedProduct, setSelectedProduct] = useState(null);
               </Slider>
               <Slider
                 asNavFor={nav1}
-                ref={(slider) => (sliderRef2 = slider)}
+                ref={(slider) => (sliderRef2.current = slider)}
                 slidesToShow={4}
                 swipeToSlide={true}
                 focusOnSelect={true}
@@ -247,7 +240,6 @@ const [selectedProduct, setSelectedProduct] = useState(null);
               ))}
             </div> */}
 
-
             {/* Quantity */}
 
             <div className="flex items-center gap-7">
@@ -275,37 +267,30 @@ const [selectedProduct, setSelectedProduct] = useState(null);
                   </Button>
                 </div>
               </div>
-              
+
               {/* Order Button */}
 
-              <Button 
-                      onClick={() => {
-                        addToCart({
-                          id: data.id,
-                          title: data.title,
-                          price: data.price,
-                          thumbnail: data.thumbnail,
-                          quantity: quantity,
-                       });
-
-                        setSelectedProduct(data);
-                        setShowToast(true);
-
-                        setTimeout(() => {
-                          setShowToast(false);
-                        }, 2000);
-                      }}
-
-                      
-                      className="bg-brand text-white font-medium text-xl py-3 px-11 rounded-md hover:bg-brand/80">
-                    Add Cart
-                  </Button>
-              <Button onClick={() => navigate("/checkout")} className="!text-primary hover:bg-brand/80 hover:!text-white bg-brand/10 font-bold border-2 border-brand text-xl py-3 px-11 rounded-md">
+              <Button
+                onClick={() => {
+                  addToCart({
+                    id: data.id,
+                    title: data.title,
+                    price: data.price,
+                    thumbnail: data.thumbnail,
+                    quantity: quantity,
+                  });
+                }}
+                className="bg-brand text-white font-medium text-xl py-3 px-11 rounded-md hover:bg-brand/80"
+              >
+                Add Cart
+              </Button>
+              <Button
+                onClick={() => navigate("/checkout")}
+                className="!text-primary hover:bg-brand/80 hover:!text-white bg-brand/10 font-bold border-2 border-brand text-xl py-3 px-11 rounded-md"
+              >
                 Buy Now
               </Button>
             </div>
-
-            
           </div>
         </div>
       </section>

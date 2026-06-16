@@ -1,12 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getUserOrders } from "../Services/order";
 import Button from "../components/UI/Button";
 import { useNavigate } from "react-router";
 import Direction from "../components/UI/Direction";
 
 const User = () => {
-  const [user, setUser] = useState(null);
-  const [orders, setOrders] = useState([]);
+  const [user] = useState(() => {
+    return JSON.parse(localStorage.getItem("user"));
+  });
+  const [orders, setOrders] = useState(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (!storedUser) return [];
+    return getUserOrders(storedUser.id);
+  });
+
   const navigate = useNavigate();
 
   const getStatusColor = (status) => {
@@ -14,15 +21,6 @@ const User = () => {
     if (status === "Delivered") return "bg-green-100 text-green-600";
     if (status === "Cancelled") return "bg-red-100 text-red-600";
   };
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    setUser(storedUser);
-
-    if (storedUser) {
-      setOrders(getUserOrders(storedUser.id));
-    }
-  }, []);
 
   const handleCancel = (orderId) => {
     const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
@@ -34,24 +32,21 @@ const User = () => {
     setOrders(updated.filter((o) => o.userId === user.id));
   };
 
- if (!user) {
-  return (
-    <div className="py-40 flex flex-col items-center justify-center gap-7">
+  if (!user) {
+    return (
+      <div className="py-40 flex flex-col items-center justify-center gap-7">
+        <img src="./Shopora.png" alt="logo" className="w-30 h-16" />
 
-      
-      <img src="./Shopora.png" alt="logo" className="w-30 h-16" />
+        <p className="text-2xl font-semibold text-center">
+          Explore Your Shopping Experience
+        </p>
 
-      <p className="text-2xl font-semibold text-center">
-        Explore Your Shopping Experience
-      </p>
-
-      <Direction onClick={() => navigate("/login")}>
-       Continue with Login
-      </Direction>
-
-    </div>
-  );
-}
+        <Direction onClick={() => navigate("/login")}>
+          Continue with Login
+        </Direction>
+      </div>
+    );
+  }
 
   return (
     <div className="container py-10">
@@ -92,57 +87,110 @@ const User = () => {
       {/* Order List */}
       <div className="space-y-4">
         {orders.length === 0 ? (
-          <p className="text-center text-secondary">No orders yet 😢</p>
+          <div className="text-center">
+            <p className="text-secondary">No orders yet 😢</p>
+            <p className="text-sm text-secondary/70 mt-2">
+              When you place an order, it will show up here.
+            </p>
+          </div>
         ) : (
-          orders.map((order) => (
-            <div key={order.id} className="bg-white p-5 rounded-xl shadow">
-              <p className="text-sm text-secondary mb-2">{order.date}</p>
+          orders.map((order) => {
+            const itemsCount =
+              order.items?.reduce((acc, it) => acc + (it.quantity || 1), 0) ||
+              0;
+            const firstItem = order.items?.[0];
 
-              {/* Items */}
-              {order.items.map((item) => (
-                <div key={item.id} className="flex justify-between text-sm">
-                  <span>{item.title}</span>
-                  <span>
-                    {item.quantity} × ${item.price}
+            return (
+              <div
+                key={order.id}
+                className="bg-white p-5 rounded-xl shadow hover:shadow-md transition"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-secondary mb-2">{order.date}</p>
+                    <p className="font-semibold text-primary">
+                      Order #{order.id}
+                    </p>
+                    <p className="text-sm text-secondary/70">
+                      {itemsCount} item{itemsCount === 1 ? "" : "s"} •{" "}
+                      {order.items?.length || 0} product(s)
+                    </p>
+                  </div>
+
+                  <span
+                    className={`px-2 py-1 text-xs rounded ${getStatusColor(order.status)}`}
+                  >
+                    {order.status}
                   </span>
                 </div>
-              ))}
 
-              {/* Status + Actions */}
-              <div className="flex justify-between items-center mt-3">
-                {/* Status */}
-                <span
-                  className={`px-2 py-1 text-xs rounded ${getStatusColor(order.status)}`}
-                >
-                  {order.status}
-                </span>
+                {/* Items preview */}
+                <div className="mt-4 space-y-2">
+                  {firstItem && (
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={firstItem.thumbnail}
+                        alt={firstItem.title}
+                        className="w-12 h-12 rounded-lg object-cover bg-secondary/10"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-primary line-clamp-1">
+                          {firstItem.title}
+                        </p>
+                        <p className="text-xs text-secondary">
+                          {firstItem.quantity} × ${firstItem.price}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
-                <div className="flex gap-2">
-                  {/* Details */}
-                  <Button
-                    onClick={() => navigate(`/order/${order.id}`)}
-                    className="bg-brand text-white px-3 py-1 rounded text-sm"
-                  >
-                    Details
-                  </Button>
-
-                  {/* Cancel */}
-                  {order.status === "Pending" && (
-                    <Button
-                      onClick={() => handleCancel(order.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded text-sm"
-                    >
-                      Cancel
-                    </Button>
+                  {order.items?.length > 1 && (
+                    <p className="text-sm text-secondary/70">
+                      + {order.items.length - 1} more item(s) in this order
+                    </p>
                   )}
                 </div>
-              </div>
 
-              <p className="text-right font-bold mt-2">
-                Total: ${order.total.toFixed(2)}
-              </p>
-            </div>
-          ))
+                <div className="flex justify-between items-center mt-4">
+                  <p className="text-right font-bold">
+                    Total:{" "}
+                    <span className="text-brand">
+                      ${order.total.toFixed(2)}
+                    </span>
+                  </p>
+
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => navigate(`/order/${order.id}`)}
+                      className="bg-brand text-white px-3 py-1 rounded text-sm"
+                    >
+                      View
+                    </Button>
+
+                    {order.status === "Pending" && (
+                      <Button
+                        onClick={() => handleCancel(order.id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded text-sm"
+                      >
+                        Cancel
+                      </Button>
+                    )}
+
+                    {order.status === "Delivered" && (
+                      <Button
+                        onClick={() =>
+                          navigate(`/shop/${order.items?.[0]?.id}`)
+                        }
+                        className="bg-secondary/10 text-primary px-3 py-1 rounded text-sm border border-secondary/10"
+                      >
+                        Buy Again
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })
         )}
       </div>
     </div>

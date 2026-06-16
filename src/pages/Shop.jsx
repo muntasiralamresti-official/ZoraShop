@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ProductCard from "../components/UI/ProductCard";
 import Select from "../components/UI/Select";
 import Button from "../components/UI/Button";
@@ -16,7 +16,8 @@ const Shop = () => {
 
   const [limit, setLimit] = useState(20);
   const [pagenumber, setPageNumber] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
+  const totalPage = data?.total ? Math.ceil(data.total / limit) : 1;
+
   const { data, isLoading, error } = useGetProductsQuery({
     limit,
     skip: limit * (pagenumber - 1),
@@ -24,12 +25,6 @@ const Shop = () => {
   });
 
   const { data: categories } = useGetCategoryListQuery();
-
-  useEffect(() => {
-    if (data?.total) {
-      setTotalPage(Math.ceil(data?.total / limit));
-    }
-  }, [data?.total, limit]);
 
   const Sortoption = [
     {
@@ -50,9 +45,8 @@ const Shop = () => {
     <main className="py-13">
       <div className="container grid grid-cols-12 gap-12">
         {/* SideBar */}
-        <div className="col-span-3 bg-white py-6 px-5 h-fit sticky top-0 left-0">
-           
-           <div className="pb-6 my-6 border-b-2 border-b-secondary/10">
+        <div className="col-span-3 bg-white py-6 px-5 h-fit sticky top-0 left-0 hidden lg:block">
+          <div className="pb-6 my-6 border-b-2 border-b-secondary/10">
             <div className="flex justify-between items-center">
               <h3 className="text-lg  font-medium text-primary">
                 Filter by Price
@@ -77,12 +71,11 @@ const Shop = () => {
               </Link>
             ))}
           </div>
-          
         </div>
 
         {/* Card */}
-        <div className="col-span-9">
-          <div className="flex justify-between items-center">
+        <div className="col-span-12 lg:col-span-9">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <p className="text-medium text-secondary/50">
               {" "}
               Showing{" "}
@@ -108,27 +101,26 @@ const Shop = () => {
             </div>
           </div>
 
-          <div className="pt-5 grid grid-cols-4 gap-6 min-h-screen">
-  {isLoading ? (
-    <Loading />
-  ) : error ? (
-    <div className="col-span-3 flex justify-center items-center">
-      {/* <Error /> */}
-    </div>
-  ) : (
-    data?.products?.map((item) => (
-      <Link to={`/shop/${item.id}`} key={item.id}>
-        <ProductCard
-          head={item.title}
-          img={item.thumbnail}
-          price={item.price}
-          discount={item.discountPercentage}
-          rating={item.rating}
-          
-        />
-      </Link>
-    ))
-  )}
+          <div className="pt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 min-h-screen">
+            {isLoading ? (
+              <Loading />
+            ) : error ? (
+              <div className="col-span-3 flex justify-center items-center">
+                {/* <Error /> */}
+              </div>
+            ) : (
+              data?.products?.map((item) => (
+                <Link to={`/shop/${item.id}`} key={item.id}>
+                  <ProductCard
+                    head={item.title}
+                    img={item.thumbnail}
+                    price={item.price}
+                    discount={item.discountPercentage}
+                    rating={item.rating}
+                  />
+                </Link>
+              ))
+            )}
           </div>
 
           <Pagination
