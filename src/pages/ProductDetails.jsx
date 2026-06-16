@@ -217,28 +217,6 @@ const ProductDetails = () => {
               </h4>
             </div>
 
-            {/* Size */}
-
-            {/* <div className="flex gap-4 items-center pb-8">
-              <p className="text-lg">Size:</p>
-              {SIZES.map((item) => (
-                <label
-                  key={item}
-                  htmlFor={item}
-                  className={`uppercase cursor-pointer py-1 px-3 border border-secondary/10 ${selectedSize === item && "bg-brand text-white"} `}
-                >
-                  {item}
-                  <input
-                    onChange={(e) => setSelectedSize(e.target.value)}
-                    value={item}
-                    type="radio"
-                    name="size"
-                    id={item}
-                    hidden
-                  />
-                </label>
-              ))}
-            </div> */}
 
             {/* Quantity */}
 
@@ -248,7 +226,7 @@ const ProductDetails = () => {
                 <div className="flex items-center bg-secondary/30 rounded-full overflow-hidden ">
                   <Button
                     onClick={decreaseQty}
-                    className="px-3 py-2 text-lg rounded-full text-secondary/50 hover:bg-brand bg-primary "
+                    className="px-3 py-2 text-lg rounded-full text-white hover:text-primary bg-brand "
                   >
                     {" "}
                     -
@@ -261,7 +239,7 @@ const ProductDetails = () => {
 
                   <Button
                     onClick={increaseQty}
-                    className="px-3 py-2 text-lg rounded-full text-secondary/50 hover:bg-brand bg-primary"
+                    className="px-3 py-2 text-lg rounded-full text-white hover:text-primary bg-brand"
                   >
                     +
                   </Button>
