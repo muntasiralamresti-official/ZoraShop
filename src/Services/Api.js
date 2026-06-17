@@ -7,7 +7,8 @@ export const apiService = createApi({
   }),
   endpoints: (build) => ({
     getProducts: build.query({
-      query: ({ category, limit=20, skip=0 }) =>  `/products${category ? `/category/${category}` : ""}?limit=${limit}&skip=${skip}`,
+      query: ({ category, limit = 20, skip = 0 } = {}) =>
+        `/products${category ? `/category/${category}` : ""}?limit=${limit}&skip=${skip}`,
     }),
     getCategoryList: build.query({
       query: () => "/products/category-list",
@@ -26,7 +27,7 @@ export const apiService = createApi({
       }),
     }),
     user: build.query({
-      query: (id) => ({
+      query: () => ({
         url: `/auth/me`,
       }),
     }),

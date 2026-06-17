@@ -4,7 +4,6 @@ import { Link } from "react-router";
 import ProductCard from "../UI/ProductCard";
 import { IoIosArrowDown } from "react-icons/io";
 
-import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useGetProductsQuery } from "../../Services/Api";
 import Loading from "../UI/Loading";
 import Error from "../UI/Error";
@@ -28,30 +27,26 @@ const FeaturedProduct = () => {
             </span>
           </Link>
         </div>
-        <div
-          to="Shop"
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mt-5 gap-1 md:gap-6"
-        >
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mt-5 gap-1 md:gap-6">
           {isLoading ? (
             <div className="col-span-full flex justify-center items-center">
-            <Loading />
+              <Loading />
             </div>
-            
           ) : error ? (
             <div className="col-span-full flex justify-center items-center">
-              {/* <Error /> */}
+              <Error />
             </div>
           ) : (
             data?.products?.map((item) => (
-              <Link to={`/shop/${item.id}`} >
-              <ProductCard
-                key={item.id}
-                head={item.title}
-                img={item.thumbnail}
-                price={item.price}
-                discount={item.discountPercentage}
-                rating={item.rating}
-              />
+              <Link to={`/shop/${item.id}`} key={item.id}>
+                <ProductCard
+                  id={item.id}
+                  head={item.title}
+                  img={item.thumbnail}
+                  price={item.price}
+                  discount={item.discountPercentage}
+                  rating={item.rating}
+                />
               </Link>
             ))
           )}

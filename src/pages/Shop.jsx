@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import ProductCard from "../components/UI/ProductCard";
 import Select from "../components/UI/Select";
-import Button from "../components/UI/Button";
 import { Link, useSearchParams } from "react-router";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
 import { useGetCategoryListQuery, useGetProductsQuery } from "../Services/Api";
 import Error from "../components/UI/Error";
@@ -15,8 +13,11 @@ const Shop = () => {
   const category = searchParams.get("category");
 
   const [limit, setLimit] = useState(20);
-  const [pagenumber, setPageNumber] = useState(1);
-  const totalPage = data?.total ? Math.ceil(data.total / limit) : 1;
+  const [pagination, setPagination] = useState({
+    category: null,
+    page: 1,
+  });
+  const pagenumber = pagination.category === category ? pagination.page : 1;
 
   const { data, isLoading, error } = useGetProductsQuery({
     limit,
@@ -25,6 +26,13 @@ const Shop = () => {
   });
 
   const { data: categories } = useGetCategoryListQuery();
+
+  const totalProducts = data?.total ?? 0;
+  const totalPage = Math.max(1, Math.ceil(totalProducts / limit));
+  const startItem = totalProducts === 0 ? 0 : limit * (pagenumber - 1) + 1;
+  const endItem = totalProducts === 0 ? 0 : Math.min(limit * pagenumber, totalProducts);
+
+  const formatCategoryLabel = (value) => value.replaceAll("-", " ");
 
   const Sortoption = [
     {
@@ -63,11 +71,11 @@ const Shop = () => {
           <div className="space-y-1.5">
             {categories?.map((item) => (
               <Link
-                to={`/shop?category=${item}`}
+                to={`/shop?category=${encodeURIComponent(item)}`}
                 key={item}
                 className="block text-base text-secondary capitalize"
               >
-                {item}
+                {formatCategoryLabel(item)}
               </Link>
             ))}
           </div>
@@ -79,14 +87,9 @@ const Shop = () => {
             <p className="text-medium text-secondary/50">
               {" "}
               Showing{" "}
-              <span className="text-primary text-lg">
-                {limit * (pagenumber - 1) + 1} -{" "}
-                {data?.total > limit * pagenumber
-                  ? limit * pagenumber
-                  : data?.total}
-              </span>{" "}
-              of <span className="text-primary text-lg"> {data?.total} </span>{" "}
-              product{" "}
+              <span className="text-primary text-lg">{startItem} - {endItem}</span>{" "}
+              of <span className="text-primary text-lg"> {totalProducts} </span>{" "}
+              products
             </p>
             <div className="flex items-center gap-3 w-fit">
               <p className="text-base text-secondary/50 whitespace-nowrap">
@@ -96,7 +99,10 @@ const Shop = () => {
                 className="max-w-44"
                 options={Sortoption}
                 value={limit}
-                onChange={(e) => setLimit(e.target.value)}
+                onChange={(e) => {
+                  setLimit(Number(e.target.value));
+                  setPagination({ category, page: 1 });
+                }}
               />
             </div>
           </div>
@@ -106,12 +112,17 @@ const Shop = () => {
               <Loading />
             ) : error ? (
               <div className="col-span-3 flex justify-center items-center">
-                {/* <Error /> */}
+                <Error />
               </div>
+            ) : data?.products?.length === 0 ? (
+              <p className="col-span-full text-center text-secondary">
+                No products found for this category.
+              </p>
             ) : (
               data?.products?.map((item) => (
                 <Link to={`/shop/${item.id}`} key={item.id}>
                   <ProductCard
+                    id={item.id}
                     head={item.title}
                     img={item.thumbnail}
                     price={item.price}
@@ -124,7 +135,7 @@ const Shop = () => {
           </div>
 
           <Pagination
-            handleChange={(num) => setPageNumber(num)}
+            handleChange={(num) => setPagination({ category, page: num })}
             pageNumber={pagenumber}
             totalPage={totalPage}
           />

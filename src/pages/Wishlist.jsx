@@ -32,8 +32,9 @@ const Wishlist = () => {
         ) : (
           wishlist.map((item) => (
             <div key={item.id} className="relative">
-              <Link to={`/shop/${item.id}`}>
+              <Link to={`/Shop/${item.id}`}>
                 <ProductCard
+                  id={item.id}
                   head={item.title}
                   img={item.thumbnail}
                   price={item.price}

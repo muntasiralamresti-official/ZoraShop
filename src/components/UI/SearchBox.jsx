@@ -40,7 +40,7 @@ const SearchBox = () => {
     if (debouncedQuery) {
       triggerSearch(debouncedQuery);
     }
-  }, [debouncedQuery]);
+  }, [debouncedQuery, triggerSearch]);
 
   useEffect(() => {
     const handler = (e) => {
@@ -179,10 +179,11 @@ const SearchBox = () => {
                   {products.map((item) => (
                     <Link
                       key={item.id}
-                      to={`/shop/${item.id}`}
+                      to={`/Shop/${item.id}`}
                       onClick={() => setOpen(false)}
                     >
                       <ProductCard
+                        id={item.id}
                         head={item.title}
                         img={item.thumbnail}
                         price={item.price}

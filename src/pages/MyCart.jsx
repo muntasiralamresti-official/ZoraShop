@@ -1,11 +1,16 @@
+import { useMemo, useSyncExternalStore } from "react";
 import { useNavigate } from "react-router";
 import Button from "../components/UI/Button";
-import { getCart, removeFromCart } from "../Services/cart";
-import { useMemo, useState } from "react";
+import {
+  getCart,
+  removeFromCart,
+  subscribeToCart,
+  updateQuantity,
+} from "../Services/cart";
 
 const MyCart = ({ openCart, setOpenCart }) => {
   const navigate = useNavigate();
-  const [cart, setCart] = useState(() => getCart());
+  const cart = useSyncExternalStore(subscribeToCart, getCart, () => []);
 
   const cartCount = useMemo(
     () => cart.reduce((acc, item) => acc + item.quantity, 0),
@@ -19,17 +24,13 @@ const MyCart = ({ openCart, setOpenCart }) => {
 
   const handleRemove = (id) => {
     removeFromCart(id);
-    setCart(getCart());
   };
 
-  const updateQuantity = (id, delta) => {
-    const existingCart = getCart();
-    const nextCart = existingCart
-      .map((item) => (item.id === id ? { ...item, quantity: item.quantity + delta } : item))
-      .filter((item) => item.quantity > 0);
+  const handleQuantityChange = (id, delta) => {
+    const currentItem = cart.find((item) => item.id === id);
+    if (!currentItem) return;
 
-    localStorage.setItem("cart_items", JSON.stringify(nextCart));
-    setCart(nextCart);
+    updateQuantity(id, currentItem.quantity + delta);
   };
 
   return (
@@ -37,53 +38,59 @@ const MyCart = ({ openCart, setOpenCart }) => {
       {openCart && (
         <div
           onClick={() => setOpenCart(false)}
-          className="fixed inset-0 bg-black/50 z-40"
+          className="fixed inset-0 z-40 bg-black/50"
         />
       )}
 
       <div
-        className={`fixed top-0 left-0 h-full w-full max-w-[400px] bg-white z-50
-        transition-all duration-300
-        ${openCart ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed top-0 left-0 z-50 flex h-full w-full max-w-[400px] flex-col bg-white shadow-xl transition-transform duration-300 ${
+          openCart ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        <div className="p-4 border-b flex justify-between">
+        <div className="flex justify-between border-b p-4">
           <div>
             <h2 className="text-xl font-semibold">My Cart</h2>
-            <p className="text-sm text-secondary mt-1">
-              {cartCount > 0 ? `${cartCount} item${cartCount > 1 ? "s" : ""}` : "No items yet"}
+            <p className="mt-1 text-sm text-secondary">
+              {cartCount > 0
+                ? `${cartCount} item${cartCount > 1 ? "s" : ""}`
+                : "No items yet"}
             </p>
           </div>
 
           <Button
             onClick={() => setOpenCart(false)}
-            className="!bg-transparent !shadow-none !p-0 !text-primary text-2xl"
+            className="!bg-transparent !p-0 !text-2xl !text-primary !shadow-none"
           >
-            ✖
+            x
           </Button>
         </div>
 
-        <div className="p-4 space-y-4">
+        <div className="flex-1 space-y-4 overflow-y-auto p-4 pb-28">
           {cart.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-[500px] gap-4">
-              <div className="text-6xl">✨</div>
-              <p className="text-secondary text-lg text-center">
-                Cart empty — add products to see your total & checkout options.
+            <div className="flex h-[500px] flex-col items-center justify-center gap-4">
+              <div className="text-5xl font-semibold text-brand">Cart</div>
+              <p className="text-center text-lg text-secondary">
+                Your cart is empty. Add products to see your total and checkout
+                options.
               </p>
 
               <Button
-                onClick={() => navigate("/shop")}
-                className="bg-brand text-white px-5 py-2 rounded-full hover:scale-105 transition"
+                onClick={() => {
+                  setOpenCart(false);
+                  navigate("/shop");
+                }}
+                className="rounded-full bg-brand px-5 py-2 text-white transition hover:scale-105"
               >
-                Start Shopping 🚀
+                Start Shopping
               </Button>
             </div>
           ) : (
             cart.map((item) => (
               <div
                 key={item.id}
-                className="px-3 py-3 shadow shadow-brand rounded-2xl bg-black"
+                className="rounded-2xl bg-black px-3 py-3 shadow shadow-brand"
               >
-                <div className="flex justify-between items-start gap-3">
+                <div className="flex items-start justify-between gap-3">
                   <div className="flex gap-3">
                     <img
                       src={item.thumbnail}
@@ -93,7 +100,7 @@ const MyCart = ({ openCart, setOpenCart }) => {
                     <div className="space-y-2">
                       <p className="font-medium text-white">{item.title}</p>
                       <p className="text-sm text-white">
-                        ${item.price} × {item.quantity}
+                        ${item.price} x {item.quantity}
                       </p>
                     </div>
                   </div>
@@ -102,18 +109,18 @@ const MyCart = ({ openCart, setOpenCart }) => {
                     <div className="flex items-center gap-2">
                       <Button
                         type="button"
-                        onClick={() => updateQuantity(item.id, -1)}
-                        className="!bg-white/10 !shadow-none !text-white w-9 h-9 rounded-full"
+                        onClick={() => handleQuantityChange(item.id, -1)}
+                        className="h-9 w-9 rounded-full !bg-white/10 !text-white !shadow-none"
                       >
-                        −
+                        -
                       </Button>
-                      <span className="text-white font-semibold w-8 text-center">
+                      <span className="w-8 text-center font-semibold text-white">
                         {item.quantity}
                       </span>
                       <Button
                         type="button"
-                        onClick={() => updateQuantity(item.id, +1)}
-                        className="!bg-white/10 !shadow-none !text-white w-9 h-9 rounded-full"
+                        onClick={() => handleQuantityChange(item.id, 1)}
+                        className="h-9 w-9 rounded-full !bg-white/10 !text-white !shadow-none"
                       >
                         +
                       </Button>
@@ -122,16 +129,16 @@ const MyCart = ({ openCart, setOpenCart }) => {
                     <Button
                       type="button"
                       onClick={() => handleRemove(item.id)}
-                      className="bg-transparent !shadow-none !p-0 !text-white"
+                      className="!bg-transparent !p-0 !text-sm !text-white !shadow-none"
                     >
-                      ❌
+                      Remove
                     </Button>
                   </div>
                 </div>
 
-                <div className="mt-2 flex justify-between items-center border-t border-white/10 pt-2">
+                <div className="mt-2 flex items-center justify-between border-t border-white/10 pt-2">
                   <span className="text-xs text-white/70">Line total</span>
-                  <span className="text-white font-semibold">
+                  <span className="font-semibold text-white">
                     ${(item.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
@@ -140,7 +147,7 @@ const MyCart = ({ openCart, setOpenCart }) => {
           )}
         </div>
 
-        <div className="absolute bottom-0 w-full p-4 border-b space-y-3">
+        <div className="mt-auto w-full space-y-3 border-t bg-white p-4">
           <div className="flex justify-between border-b pb-3">
             <span className="text-xl">Subtotal -</span>
             <span className="text-xl font-bold">${subtotal.toFixed(2)}</span>
@@ -152,8 +159,8 @@ const MyCart = ({ openCart, setOpenCart }) => {
               navigate("/checkout");
             }}
             disabled={cart.length === 0}
-            className={`flex justify-center w-full ${
-              cart.length === 0 ? "opacity-60 cursor-not-allowed" : ""
+            className={`flex w-full justify-center ${
+              cart.length === 0 ? "cursor-not-allowed opacity-60" : ""
             }`}
           >
             Check Out
@@ -165,4 +172,3 @@ const MyCart = ({ openCart, setOpenCart }) => {
 };
 
 export default MyCart;
-

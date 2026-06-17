@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import { useNavigate } from "react-router";
 import Input from "../components/UI/Input";
-import { getCart } from "../Services/cart";
+import { clearCart, getCart } from "../Services/cart";
 import { saveOrder } from "../Services/order";
 
 const Checkout = () => {
@@ -54,7 +54,7 @@ const Checkout = () => {
     if (!order) return;
 
     saveOrder(order);
-    localStorage.removeItem("cart_items"); // clear cart
+    clearCart();
 
     navigate("/success");
   };
@@ -78,7 +78,7 @@ const Checkout = () => {
       if (!order) return;
 
       saveOrder(order);
-      localStorage.removeItem("cart_items");
+      clearCart();
 
       navigate("/success");
     } finally {

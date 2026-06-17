@@ -217,7 +217,6 @@ const ProductDetails = () => {
               </h4>
             </div>
 
-
             {/* Quantity */}
 
             <div className="flex items-center gap-7">
@@ -321,7 +320,7 @@ const ProductDetails = () => {
           </p> */}
         </div>
       </section>
-      <Testimonials reviews={data?.reviews} />
+      <Testimonials key={id} reviews={data?.reviews} productId={id} />
     </>
   );
 };

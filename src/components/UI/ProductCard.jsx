@@ -1,14 +1,25 @@
 import React from "react";
 import { BiCart } from "react-icons/bi";
 import { CiStar } from "react-icons/ci";
-import { FaRegHeart, FaStar } from "react-icons/fa";
-import { useGetProductsQuery } from "../../Services/Api";
-import { useNavigate } from "react-router";
+import { FaStar } from "react-icons/fa";
+import { addToCart } from "../../Services/cart";
 
-const ProductCard = ({ head, price, img, discount, heart, rating }) => {
-  const { data } = useGetProductsQuery();
+const ProductCard = ({ id, head, price, img, discount, heart, rating }) => {
+  const handleAddToCart = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-  const navigate = useNavigate();
+    if (!id) return;
+
+    addToCart({
+      id,
+      title: head,
+      price,
+      thumbnail: img,
+      quantity: 1,
+    });
+  };
+
   return (
     <div className="p-2.5 bg-white border border-[#E9E9E9] rounded-2xl flex flex-col h-full ">
       <div className="rounded-2xl overflow-hidden relative">
@@ -18,7 +29,7 @@ const ProductCard = ({ head, price, img, discount, heart, rating }) => {
             -${discount} OFF
           </p>
         )}
-        <span className="absolute top-5 right-3.5 text-3xl text-secondary/80cursor-pointer">
+        <span className="absolute top-5 right-3.5 cursor-pointer text-3xl text-secondary/80">
           {heart}
         </span>
       </div>
@@ -42,7 +53,14 @@ const ProductCard = ({ head, price, img, discount, heart, rating }) => {
           <p className="font-medium text-base md:text-2xl text-brand">
             ${price}
           </p>
-          <BiCart onClick={() => navigate("/mycart")} className="text-lg md:text-3xl text-brand" />
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className="text-brand transition hover:scale-105"
+            aria-label={`Add ${head} to cart`}
+          >
+            <BiCart className="text-lg md:text-3xl" />
+          </button>
         </div>
       </div>
     </div>

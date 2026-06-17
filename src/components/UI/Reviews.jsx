@@ -2,25 +2,37 @@ import React from "react";
 import { IoStar } from "react-icons/io5";
 import { CiStar } from "react-icons/ci";
 
-const Reviews = ({ reviews }) => {
+const Reviews = ({ reviews = [] }) => {
+  const formatReviewDate = (dateValue) => {
+    const parsedDate = new Date(dateValue);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return "Recently";
+    }
+
+    return parsedDate.toLocaleDateString();
+  };
+
   return (
     <section className="pb-10">
       <div className="container pl-0 space-y-8">
-        {reviews?.map((review, index) => (
-          <div key={index}>
+        {reviews.map((review, index) => (
+          <div
+            key={
+              review.id ??
+              `${review.reviewerEmail ?? review.reviewerName ?? "review"}-${review.date ?? index}`
+            }
+          >
             <div className="flex">
-              {/* Avatar (auto generate 🔥) */}
               <div className="w-14 h-14 rounded-full border-2 border-primary bg-brand/20 bg-secondary-200 flex items-center justify-center text-xl font-bold text-secondary-600">
                 {review.reviewerName?.charAt(0)}
               </div>
 
-              {/* Content */}
               <div className="pl-4">
                 <h4 className="text-primary font-medium text-lg">
                   {review.reviewerName}
                 </h4>
 
-                {/* Rating */}
                 <div className="flex items-center gap-4 mt-1">
                   <span className="text-secondary text-lg font-medium">
                     {review.rating}.0
@@ -37,13 +49,12 @@ const Reviews = ({ reviews }) => {
                   </div>
 
                   <span className="text-secondary/80 text-lg">
-                    {new Date(review.date).toLocaleDateString()}
+                    {formatReviewDate(review.date)}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Comment */}
             <p className="text-secondary/80 mt-6 text-lg">{review.comment}</p>
           </div>
         ))}
