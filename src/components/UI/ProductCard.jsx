@@ -53,12 +53,7 @@ const ProductCard = ({ id, head, price, img, discount, heart, rating }) => {
           <p className="font-medium text-base md:text-2xl text-brand">
             ${price}
           </p>
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className="text-brand transition hover:scale-105"
-            aria-label={`Add ${head} to cart`}
-          >
+          <button type="button" onClick={handleAddToCart} className="text-brand transition hover:scale-105" aria-label={`Add ${head} to cart`} >
             <BiCart className="text-lg md:text-3xl" />
           </button>
         </div>
