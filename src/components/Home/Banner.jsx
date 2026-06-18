@@ -17,7 +17,7 @@ const Banner = () => {
         </ul>
       </div>
     ),
-    customPaging: (i) => (
+    customPaging: () => (
       <div>
         <button className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-brand"></button>
       </div>

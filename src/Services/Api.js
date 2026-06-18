@@ -7,8 +7,23 @@ export const apiService = createApi({
   }),
   endpoints: (build) => ({
     getProducts: build.query({
-      query: ({ category, limit = 20, skip = 0 } = {}) =>
-        `/products${category ? `/category/${category}` : ""}?limit=${limit}&skip=${skip}`,
+      query: ({ category, search, limit = 20, skip = 0 } = {}) => {
+        const params = new URLSearchParams({
+          limit: String(limit),
+          skip: String(skip),
+        });
+
+        if (search) {
+          params.set("q", search);
+          return `/products/search?${params.toString()}`;
+        }
+
+        if (category) {
+          return `/products/category/${encodeURIComponent(category)}?${params.toString()}`;
+        }
+
+        return `/products?${params.toString()}`;
+      },
     }),
     getCategoryList: build.query({
       query: () => "/products/category-list",
@@ -17,7 +32,8 @@ export const apiService = createApi({
       query: (id) => `/products/${id}`,
     }),
     searchProduct: build.query({
-       query: (search) => `/products/search?q=${search}`,
+      query: (search) =>
+        `/products/search?${new URLSearchParams({ q: search }).toString()}`,
     }),
     login: build.mutation({
       query: (data) => ({
@@ -34,4 +50,11 @@ export const apiService = createApi({
   }),
 });
 
-export const { useGetProductsQuery , useGetCategoryListQuery , useGetProductDetailsQuery , useLazySearchProductQuery, useUserQuery, useLoginMutation} = apiService;
+export const {
+  useGetProductsQuery,
+  useGetCategoryListQuery,
+  useGetProductDetailsQuery,
+  useLazySearchProductQuery,
+  useUserQuery,
+  useLoginMutation,
+} = apiService;

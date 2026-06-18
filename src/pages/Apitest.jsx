@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 const Apitest = () => {
   // const [photo, setPhoto] = useState([]);

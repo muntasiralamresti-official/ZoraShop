@@ -2,6 +2,7 @@ import React from "react";
 import { BiCart } from "react-icons/bi";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
+import Button from "./Button";
 import { addToCart } from "../../Services/cart";
 
 const ProductCard = ({ id, head, price, img, discount, heart, rating }) => {
@@ -53,9 +54,15 @@ const ProductCard = ({ id, head, price, img, discount, heart, rating }) => {
           <p className="font-medium text-base md:text-2xl text-brand">
             ${price}
           </p>
-          <button type="button" onClick={handleAddToCart} className="text-brand transition hover:scale-105" aria-label={`Add ${head} to cart`} >
+          <Button
+            type="button"
+            onClick={handleAddToCart}
+            variant="secondary"
+            className="text-brand transition hover:scale-105 bg-transparent border-0 p-0"
+            aria-label={`Add ${head} to cart`}
+          >
             <BiCart className="text-lg md:text-3xl" />
-          </button>
+          </Button>
         </div>
       </div>
     </div>

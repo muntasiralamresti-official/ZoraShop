@@ -54,8 +54,10 @@ const SearchBox = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (query.trim()) {
-      navigate(`/search?q=${query}`);
+    const nextQuery = query.trim();
+
+    if (nextQuery) {
+      navigate(`/shop?q=${encodeURIComponent(nextQuery)}`);
       setOpen(false);
     }
   };
@@ -132,7 +134,7 @@ const SearchBox = () => {
                     relatedCategories.map((cat) => (
                       <Link
                         key={cat}
-                        to={`/?category=${cat}`}
+                        to={`/shop?category=${encodeURIComponent(cat)}`}
                         onClick={() => setOpen(false)}
                         className="block py-1 text-lg hover:text-brand"
                       >
@@ -179,7 +181,7 @@ const SearchBox = () => {
                   {products.map((item) => (
                     <Link
                       key={item.id}
-                      to={`/Shop/${item.id}`}
+                      to={`/shop/${item.id}`}
                       onClick={() => setOpen(false)}
                     >
                       <ProductCard

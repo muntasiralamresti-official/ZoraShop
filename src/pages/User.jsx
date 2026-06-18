@@ -179,7 +179,7 @@ const User = () => {
                     {order.status === "Delivered" && (
                       <Button
                         onClick={() =>
-                          navigate(`/Shop/${order.items?.[0]?.id}`)
+                          navigate(`/shop/${order.items?.[0]?.id}`)
                         }
                         className="bg-secondary/10 text-primary px-3 py-1 rounded text-sm border border-secondary/10"
                       >

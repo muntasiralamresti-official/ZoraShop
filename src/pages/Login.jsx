@@ -73,7 +73,7 @@ const Login = () => {
               label="Remember me"
               className="accent-brand flex items-center gap-2 text-secondary"
             />
-            <Link to="/Forget" className="text-brand hover:underline">
+            <Link to="/forget" className="text-brand hover:underline">
               Forgot Password?
             </Link>
           </div>
@@ -116,7 +116,7 @@ const Login = () => {
         {/* Footer */}
         <p className="text-center text-lg text-secondary mt-6">
           Don’t have an account?{" "}
-          <Link to="/Register">
+          <Link to="/register">
             <span className="text-brand cursor-pointer hover:underline">
               Sign up
             </span>

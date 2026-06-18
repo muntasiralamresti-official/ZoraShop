@@ -32,7 +32,7 @@ const Wishlist = () => {
         ) : (
           wishlist.map((item) => (
             <div key={item.id} className="relative">
-              <Link to={`/Shop/${item.id}`}>
+              <Link to={`/shop/${item.id}`}>
                 <ProductCard
                   id={item.id}
                   head={item.title}

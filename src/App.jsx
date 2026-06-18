@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
@@ -14,11 +20,18 @@ import OrderSuccess from "./pages/OrderSuccess";
 import OrderDetails from "./pages/OrderDetails";
 import User from "./pages/User";
 
+const SearchRedirect = () => {
+  const { search } = useLocation();
+
+  return <Navigate to={`/shop${search}`} replace />;
+};
+
 const App = () => {
   const [openCart, setOpenCart] = useState(false);
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/search" element={<SearchRedirect />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forget" element={<Forget />} />

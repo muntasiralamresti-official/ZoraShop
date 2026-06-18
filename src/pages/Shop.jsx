@@ -11,28 +11,42 @@ import { Pagination } from "../components/UI/Pagination";
 const Shop = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
+  const search = searchParams.get("q")?.trim() || searchParams.get("search")?.trim() || "";
 
   const [limit, setLimit] = useState(20);
-  const [pagination, setPagination] = useState({
-    category: null,
-    page: 1,
-  });
-  const pagenumber = pagination.category === category ? pagination.page : 1;
+  const filterKey = `${category ?? ""}:${search}:${limit}`;
+  const [pagination, setPagination] = useState(() => ({
+    filterKey,
+    pageNumber: 1,
+  }));
+  const pageNumber =
+    pagination.filterKey === filterKey ? pagination.pageNumber : 1;
 
   const { data, isLoading, error } = useGetProductsQuery({
     limit,
-    skip: limit * (pagenumber - 1),
+    skip: limit * (pageNumber - 1),
     category,
+    search,
   });
 
   const { data: categories } = useGetCategoryListQuery();
 
   const totalProducts = data?.total ?? 0;
   const totalPage = Math.max(1, Math.ceil(totalProducts / limit));
-  const startItem = totalProducts === 0 ? 0 : limit * (pagenumber - 1) + 1;
-  const endItem = totalProducts === 0 ? 0 : Math.min(limit * pagenumber, totalProducts);
+  const startItem = totalProducts === 0 ? 0 : limit * (pageNumber - 1) + 1;
+  const endItem = totalProducts === 0 ? 0 : Math.min(limit * pageNumber, totalProducts);
 
   const formatCategoryLabel = (value) => value.replaceAll("-", " ");
+  const activeFilterLabel = search
+    ? `Search results for "${search}"`
+    : category
+      ? `Category: ${formatCategoryLabel(category)}`
+      : "All products";
+  const emptyStateMessage = search
+    ? `No products found for "${search}".`
+    : category
+      ? `No products found for ${formatCategoryLabel(category)}.`
+      : "No products found.";
 
   const Sortoption = [
     {
@@ -84,13 +98,19 @@ const Shop = () => {
         {/* Card */}
         <div className="col-span-12 lg:col-span-9">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-            <p className="text-medium text-secondary/50">
-              {" "}
-              Showing{" "}
-              <span className="text-primary text-lg">{startItem} - {endItem}</span>{" "}
-              of <span className="text-primary text-lg"> {totalProducts} </span>{" "}
-              products
-            </p>
+            <div>
+              <p className="text-medium text-secondary/50">
+                Showing{" "}
+                <span className="text-primary text-lg">
+                  {startItem} - {endItem}
+                </span>{" "}
+                of <span className="text-primary text-lg">{totalProducts}</span>{" "}
+                products
+              </p>
+              <p className="pt-1 text-sm text-secondary">
+                {activeFilterLabel}
+              </p>
+            </div>
             <div className="flex items-center gap-3 w-fit">
               <p className="text-base text-secondary/50 whitespace-nowrap">
                 Sort By:
@@ -99,24 +119,23 @@ const Shop = () => {
                 className="max-w-44"
                 options={Sortoption}
                 value={limit}
-                onChange={(e) => {
-                  setLimit(Number(e.target.value));
-                  setPagination({ category, page: 1 });
-                }}
+                onChange={(e) => setLimit(Number(e.target.value))}
               />
             </div>
           </div>
 
           <div className="pt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 min-h-screen">
             {isLoading ? (
-              <Loading />
+              <div className="col-span-full flex justify-center items-center">
+                <Loading />
+              </div>
             ) : error ? (
-              <div className="col-span-3 flex justify-center items-center">
+              <div className="col-span-full flex justify-center items-center">
                 <Error />
               </div>
             ) : data?.products?.length === 0 ? (
               <p className="col-span-full text-center text-secondary">
-                No products found for this category.
+                {emptyStateMessage}
               </p>
             ) : (
               data?.products?.map((item) => (
@@ -134,11 +153,15 @@ const Shop = () => {
             )}
           </div>
 
-          <Pagination
-            handleChange={(num) => setPagination({ category, page: num })}
-            pageNumber={pagenumber}
-            totalPage={totalPage}
-          />
+          {totalProducts > 0 && (
+            <Pagination
+              handleChange={(nextPage) =>
+                setPagination({ filterKey, pageNumber: nextPage })
+              }
+              pageNumber={pageNumber}
+              totalPage={totalPage}
+            />
+          )}
         </div>
       </div>
     </main>

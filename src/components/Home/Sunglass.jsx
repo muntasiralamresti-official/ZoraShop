@@ -1,6 +1,6 @@
 import React from "react";
 import { MdArrowForward } from "react-icons/md";
-import { Link, Links } from "react-router";
+import { Link } from "react-router";
 import ProductCard from "../UI/ProductCard";
 import { useGetProductsQuery } from "../../Services/Api";
 
@@ -16,7 +16,7 @@ const Sunglass = () => {
         <div className="flex justify-between">
           <h3 className="sub_head text-[#2E2E2E]">Flash Deals</h3>
           <Link
-            to="/Shop?category=sunglasses"
+            to={`/shop?category=${encodeURIComponent("sunglasses")}`}
             className="view flex gap-4.5 items-center"
           >
             View More{" "}
@@ -42,7 +42,7 @@ const Sunglass = () => {
         </Link> */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mt-5 gap-6">
           {data?.products?.map((item) => (
-            <Link to={`/Shop/${item.id}`} key={item.id}>
+            <Link to={`/shop/${item.id}`} key={item.id}>
               <ProductCard
                 id={item.id}
                 head={item.title}

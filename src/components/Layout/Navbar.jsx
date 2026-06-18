@@ -146,7 +146,7 @@ const Navbar = ({ setOpenCart }) => {
           {data?.map((item, i) => (
             <li key={i}>
               <Link
-                to={`/Shop?category=${item}`}
+                to={`/shop?category=${encodeURIComponent(item)}`}
                 onClick={() => {
                   setActive(item);
                   setAutoScroll(false);
