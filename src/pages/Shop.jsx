@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ProductCard from "../components/UI/ProductCard";
 import Select from "../components/UI/Select";
 import { Link, useSearchParams } from "react-router";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaFilter, FaTimes } from "react-icons/fa";
 import { useGetCategoryListQuery, useGetProductsQuery } from "../Services/Api";
 import Error from "../components/UI/Error";
 import Loading from "../components/UI/Loading";
@@ -11,9 +11,11 @@ import { Pagination } from "../components/UI/Pagination";
 const Shop = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
-  const search = searchParams.get("q")?.trim() || searchParams.get("search")?.trim() || "";
+  const search =
+    searchParams.get("q")?.trim() || searchParams.get("search")?.trim() || "";
 
   const [limit, setLimit] = useState(20);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const filterKey = `${category ?? ""}:${search}:${limit}`;
   const [pagination, setPagination] = useState(() => ({
     filterKey,
@@ -34,7 +36,8 @@ const Shop = () => {
   const totalProducts = data?.total ?? 0;
   const totalPage = Math.max(1, Math.ceil(totalProducts / limit));
   const startItem = totalProducts === 0 ? 0 : limit * (pageNumber - 1) + 1;
-  const endItem = totalProducts === 0 ? 0 : Math.min(limit * pageNumber, totalProducts);
+  const endItem =
+    totalProducts === 0 ? 0 : Math.min(limit * pageNumber, totalProducts);
 
   const formatCategoryLabel = (value) => value.replaceAll("-", " ");
   const activeFilterLabel = search
@@ -63,60 +66,106 @@ const Shop = () => {
     },
   ];
 
-  return (
-    <main className="py-13">
-      <div className="container grid grid-cols-12 gap-12">
-        {/* SideBar */}
-        <div className="col-span-3 bg-white py-6 px-5 h-fit sticky top-0 left-0 hidden lg:block">
-          <div className="pb-6 my-6 border-b-2 border-b-secondary/10">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg  font-medium text-primary">
-                Filter by Price
-              </h3>
-              <FaChevronDown className="text-lg font-medium text-primary cursor-pointer" />
-            </div>
-            <input type="range" name="" id="" className="w-full my-6 " />
-            <p>Price: $0 - $20000 </p>
-          </div>
-
-          <h3 className="text-lg font-medium text-primary">
-            Related Categories
+  const FilterPanel = (
+    <>
+      <div className="pb-6 mb-6 border-b-2 border-b-secondary/10">
+        <div className="flex justify-between items-center">
+          <h3 className="text-base sm:text-lg font-medium text-primary">
+            Filter by Price
           </h3>
-          <div className="space-y-1.5">
-            {categories?.map((item) => (
-              <Link
-                to={`/shop?category=${encodeURIComponent(item)}`}
-                key={item}
-                className="block text-base text-secondary capitalize"
-              >
-                {formatCategoryLabel(item)}
-              </Link>
-            ))}
+          <FaChevronDown className="text-lg font-medium text-primary cursor-pointer" />
+        </div>
+        <input type="range" name="" id="" className="w-full my-6" />
+        <p className="text-sm sm:text-base">Price: $0 - $20000</p>
+      </div>
+
+      <h3 className="text-base sm:text-lg font-medium text-primary">
+        Related Categories
+      </h3>
+      <div className="space-y-1.5 mt-3">
+        {categories?.map((item) => (
+          <Link
+            to={`/shop?category=${encodeURIComponent(item)}`}
+            key={item}
+            onClick={() => setShowMobileFilters(false)}
+            className="block text-sm sm:text-base text-secondary capitalize"
+          >
+            {formatCategoryLabel(item)}
+          </Link>
+        ))}
+      </div>
+    </>
+  );
+
+  return (
+    <main className="py-8 sm:py-10 lg:py-13">
+      <div className="container px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12">
+        {/* Mobile filter toggle */}
+        <div className="lg:hidden">
+          <button
+            type="button"
+            onClick={() => setShowMobileFilters(true)}
+            className="flex items-center gap-2 text-sm font-medium text-primary border border-secondary/20 rounded-md px-4 py-2"
+          >
+            <FaFilter />
+            Filters
+          </button>
+        </div>
+
+        {/* Mobile filter drawer */}
+        {showMobileFilters && (
+          <div className="fixed inset-0 z-50 lg:hidden">
+            <div
+              className="absolute inset-0 bg-black/40"
+              onClick={() => setShowMobileFilters(false)}
+            />
+            <div className="absolute right-0 top-0 h-full w-[85%] max-w-xs bg-white px-5 py-6 overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-medium text-primary">Filters</h3>
+                <button
+                  type="button"
+                  onClick={() => setShowMobileFilters(false)}
+                  aria-label="Close filters"
+                  className="text-secondary text-xl"
+                >
+                  <FaTimes />
+                </button>
+              </div>
+              {FilterPanel}
+            </div>
           </div>
+        )}
+
+        {/* SideBar (desktop) */}
+        <div className="hidden lg:block lg:col-span-3 bg-white py-6 px-5 h-fit sticky top-4">
+          {FilterPanel}
         </div>
 
         {/* Card */}
-        <div className="col-span-12 lg:col-span-9">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+        <div className="col-span-1 lg:col-span-9">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <div>
-              <p className="text-medium text-secondary/50">
+              <p className="text-sm sm:text-medium text-secondary/50">
                 Showing{" "}
-                <span className="text-primary text-lg">
+                <span className="text-primary text-base sm:text-lg">
                   {startItem} - {endItem}
                 </span>{" "}
-                of <span className="text-primary text-lg">{totalProducts}</span>{" "}
+                of{" "}
+                <span className="text-primary text-base sm:text-lg">
+                  {totalProducts}
+                </span>{" "}
                 products
               </p>
-              <p className="pt-1 text-sm text-secondary">
+              <p className="pt-1 text-xs sm:text-sm text-secondary">
                 {activeFilterLabel}
               </p>
             </div>
-            <div className="flex items-center gap-3 w-fit">
-              <p className="text-base text-secondary/50 whitespace-nowrap">
+            <div className="flex items-center gap-3 w-full sm:w-fit">
+              <p className="text-sm sm:text-base text-secondary/50 whitespace-nowrap">
                 Sort By:
               </p>
               <Select
-                className="max-w-44"
+                className="w-full sm:max-w-44"
                 options={Sortoption}
                 value={limit}
                 onChange={(e) => setLimit(Number(e.target.value))}
@@ -124,7 +173,7 @@ const Shop = () => {
             </div>
           </div>
 
-          <div className="pt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 min-h-screen">
+          <div className="pt-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {isLoading ? (
               <div className="col-span-full flex justify-center items-center">
                 <Loading />

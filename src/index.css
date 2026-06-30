@@ -1,56 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Podkova:wght@400..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Podkova:wght@400..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 @import "slick-carousel/slick/slick.css";
 
-
-@theme{
+@theme {
   --color-primary: #383838;
   --color-secondary: #394146;
-  --color-brand: #0198E9;
-  --background-image-badge: linear-gradient(90deg, rgba(255, 122, 0, 1) 0%, rgba(255, 184, 0, 1) 50%) ;
-  --background-image-badge-secondary:linear-gradient(90deg,rgba(45, 42, 120, 1) 6%, rgba(69, 9, 121, 1) 42%, rgba(73, 144, 158, 1) 100%);
+  --color-brand: #0198e9;
+  --background-image-badge: linear-gradient(
+    90deg,
+    rgba(255, 122, 0, 1) 0%,
+    rgba(255, 184, 0, 1) 50%
+  );
+  --background-image-badge-secondary: linear-gradient(
+    90deg,
+    rgba(45, 42, 120, 1) 6%,
+    rgba(69, 9, 121, 1) 42%,
+    rgba(73, 144, 158, 1) 100%
+  );
   --font-secondary: "Lato", sans-serif;
 }
 
-@utility container{
+@utility container {
   margin: auto;
   padding: 0 20px;
 }
-@utility py-13{
-  padding-top-bottom : 50px;
+@utility py-13 {
+  padding-top-bottom: 50px;
 }
-@utility text-26{
+@utility text-26 {
   font-size: 26px;
 }
-@utility w-745{
+@utility w-745 {
   max-width: 745px;
 }
 
-body{
+body {
   font-family: "Poppins", sans-serif;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
+  overflow-x: hidden;
 }
 
-.slick-dots .slick-active button{
-  @apply w-5.5 md:w-8
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.slick-dots .slick-active button {
+  @apply w-5.5 md:w-8;
 }
 
 .button-arrow {
-   @apply text-brand
+  @apply text-brand;
 }
 
-.sub_head{
-  @apply text-[26px] font-semibold text-primary
+.sub_head {
+  @apply text-[26px] font-semibold text-primary;
 }
 
-.view{
-  @apply text-[16px] font-semibold text-secondary
+.view {
+  @apply text-[16px] font-semibold text-secondary;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
-
 
 @keyframes fadeInUp {
   to {
